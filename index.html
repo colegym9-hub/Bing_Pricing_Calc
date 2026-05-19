@@ -485,6 +485,66 @@ footer.foot {
   color: rgba(255, 255, 255, 0.45);
   text-align: center;
 }
+
+/* ── Desktop: compact everything into one viewport ─────────────── */
+@media (min-width: 1024px) {
+  .hero {
+    padding: 24px var(--ac-section-px) 12px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 3vw, 46px);
+    margin: 10px 0 0;
+  }
+  .hero p.intro { display: none; }
+  .calc {
+    padding-top: 14px;
+    padding-bottom: 40px;
+    gap: 28px;
+  }
+  .inputs { gap: 18px; }
+  .tiers { gap: 6px; }
+  .tier { padding: 9px 14px; }
+  fieldset.group { gap: 12px; }
+  .quote {
+    position: sticky;
+    top: 74px;
+  }
+}
+
+/* ── Mobile: sticky bottom price bar ───────────────────────────── */
+.sticky-price { display: none; }
+@media (max-width: 1023px) {
+  .sticky-price {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px var(--ac-section-px);
+    background: rgba(13, 20, 22, 0.96);
+    border-top: 2px solid var(--ac-accent);
+    z-index: 20;
+    backdrop-filter: blur(10px);
+  }
+  .sp-label {
+    font-family: var(--ac-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .sp-total {
+    font-family: var(--ac-sans);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.025em;
+    color: #fff;
+  }
+  .notes { padding-bottom: calc(112px + 60px); }
+  footer.foot { padding-bottom: calc(28px + 60px); }
+}
 </style>
 </head>
 <body>
@@ -567,12 +627,17 @@ footer.foot {
     </div>
     <div>
       <h3>Larger teams or unusual combinations</h3>
-      <p>Anything 45+ on All-Access, or a configuration that does not fit the calculator, is a custom quote. Email cole@a-cmedia.com.</p>
+      <p>Anything 45+ on All-Access, or a configuration that does not fit the calculator, is a custom quote. Email alternate.creative.media@gmail.com.</p>
     </div>
   </div>
 </section>
 
 <footer class="foot">A.C MEDIA · COLE@A-CMEDIA.COM · 24-HR RESPONSE</footer>
+
+<div class="sticky-price" id="sticky-price" aria-live="polite">
+  <span class="sp-label">Estimate</span>
+  <span class="sp-total" id="sp-total">—</span>
+</div>
 
 <script>
 /* ──────────────────────────────────────────────────────────────────────
@@ -590,7 +655,7 @@ const CONFIG = {
   ALL_ACCESS_MAX_SIZE: 44,
   MIN_TEAM_SIZE: 6,
   GROUP_EXTRAPOLATION: 3,
-  CONTACT_EMAIL: "cole@a-cmedia.com",
+  CONTACT_EMAIL: "alternate.creative.media@gmail.com",
 
   RATE_MATRIX: {
     "1-choice":  [7, 12, 16, 20],
@@ -853,6 +918,7 @@ function render() {
   const n = nudge(input);
   const time = shootTimeEstimate(state.tier, state.teamSize);
 
+  updateStickyBar(r);
   quoteBody.innerHTML = "";
 
   if (r.kind === "error") {
@@ -972,6 +1038,14 @@ function render() {
   incl.style.color = "rgba(255,255,255,0.55)";
   incl.textContent = "A full team photo is included if you want one.";
   quoteBody.appendChild(incl);
+}
+
+const spTotal = document.getElementById("sp-total");
+function updateStickyBar(r) {
+  if (!spTotal) return;
+  if (r.kind === "ok") spTotal.textContent = fmtUSD(r.total);
+  else if (r.kind === "custom-quote") spTotal.textContent = "Custom";
+  else spTotal.textContent = "—";
 }
 
 render();
