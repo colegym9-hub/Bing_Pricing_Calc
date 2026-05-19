@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, follow" />
+<title>Pricing calculator — A.C Media</title>
+<meta name="description" content="Estimate a team photo shoot package in seconds. For coaches and athletic departments." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@1,400&display=swap" rel="stylesheet" />
+
+<style>
+/* ── A.C Media tokens ──────────────────────────────────────────── */
+:root {
+  --ac-bg:        #000000;
+  --ac-bg-alt:    oklch(0.08 0.003 200);
+  --ac-accent:    #7EB6C0;
+  --ac-card-bg:   oklch(0.13 0.004 200);
+  --ac-card-alt:  oklch(0.18 0.005 200);
+  --ac-teal-bg:   oklch(0.22 0.04 204);
+
+  --ac-sans:  "Inter", system-ui, sans-serif;
+  --ac-serif: "Source Serif 4", Georgia, serif;
+  --ac-mono:  "JetBrains Mono", ui-monospace, monospace;
+
+  --ac-section-px: clamp(20px, 4vw, 56px);
+  --ac-content-max: 1328px;
+
+  --ac-rule:    rgba(255,255,255,0.14);
+  --ac-ink:     #fff;
+  --ac-ink-dim: rgba(255,255,255,0.55);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--ac-bg); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--ac-sans);
+  color: #fff;
+  background: var(--ac-bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+::selection { background: var(--ac-accent); color: #000; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--ac-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Type helpers ──────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ac-accent);
+  text-transform: uppercase;
+  margin: 0;
+}
+.label {
+  display: block;
+  font-family: var(--ac-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 10px;
+}
+.helper {
+  font-family: var(--ac-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 10px 0 0;
+}
+.error-text {
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-accent);
+  margin: 10px 0 0;
+}
+.accent {
+  font-family: var(--ac-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ac-accent);
+}
+
+/* ── Page layout ───────────────────────────────────────────────── */
+header.brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px var(--ac-section-px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+header.brand .mark {
+  font-family: var(--ac-mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+}
+header.brand .right {
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+.hero {
+  padding: 80px var(--ac-section-px) 40px;
+  max-width: var(--ac-content-max);
+  margin: 0 auto;
+}
+.hero h1 {
+  font-family: var(--ac-sans);
+  font-weight: 800;
+  font-size: clamp(40px, 7vw, 92px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 22px 0 0;
+  max-width: 1000px;
+}
+.hero p.intro {
+  margin: 24px 0 0;
+  max-width: 720px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.calc {
+  padding: 24px var(--ac-section-px) 80px;
+  max-width: var(--ac-content-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+  .calc { grid-template-columns: 1.1fr 1fr; }
+}
+
+.inputs { display: grid; gap: 36px; }
+
+fieldset.group {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 18px;
+}
+fieldset.group legend { padding: 0; margin-bottom: 4px; }
+
+/* ── Stepper ───────────────────────────────────────────────────── */
+.stepper {
+  display: inline-grid;
+  grid-template-columns: 44px 80px 44px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+}
+.stepper button {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  font-size: 22px;
+  font-family: var(--ac-sans);
+  font-weight: 500;
+  line-height: 1;
+}
+.stepper button:hover { background: rgba(126, 182, 192, 0.08); }
+.stepper input {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  text-align: center;
+  font-family: var(--ac-sans);
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  width: 100%;
+  padding: 12px 0;
+  -moz-appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── Toggle ────────────────────────────────────────────────────── */
+.toggle {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+  width: 200px;
+}
+.toggle button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  border: 0;
+  cursor: pointer;
+  padding: 12px 16px;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.toggle button[aria-pressed="true"] {
+  background: var(--ac-accent);
+  color: #000;
+}
+
+/* ── Tier cards ────────────────────────────────────────────────── */
+.tiers { display: grid; gap: 10px; }
+.tier {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  text-align: left;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  cursor: pointer;
+  color: #fff;
+  align-items: baseline;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tier:hover { border-color: rgba(126, 182, 192, 0.5); }
+.tier[aria-checked="true"] {
+  background: rgba(126, 182, 192, 0.06);
+  border-color: var(--ac-accent);
+}
+.tier .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  margin-top: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.tier[aria-checked="true"] .dot {
+  background: var(--ac-accent);
+  border-color: var(--ac-accent);
+}
+.tier .name {
+  font-family: var(--ac-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: block;
+}
+.tier[aria-checked="true"] .name { color: var(--ac-accent); }
+.tier .desc {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.45;
+}
+
+/* ── Group picker ──────────────────────────────────────────────── */
+.groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.chip {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 14px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  font-family: var(--ac-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.chip:hover { border-color: rgba(126, 182, 192, 0.5); }
+.chip[aria-pressed="true"] {
+  background: var(--ac-accent);
+  color: #000;
+  border-color: var(--ac-accent);
+}
+.groups-count {
+  font-family: var(--ac-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 6px;
+}
+
+/* ── Quote panel ───────────────────────────────────────────────── */
+.quote {
+  position: relative;
+  background: var(--ac-card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-top: 2px solid var(--ac-accent);
+  padding: 32px clamp(20px, 3vw, 36px);
+  align-self: start;
+  display: grid;
+  gap: 24px;
+}
+.quote .total {
+  margin: 0;
+  font-family: var(--ac-sans);
+  font-weight: 800;
+  font-size: clamp(56px, 8vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.quote .custom-head {
+  margin: 0;
+  font-family: var(--ac-sans);
+  font-weight: 800;
+  font-size: clamp(36px, 5.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+.quote .custom-body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.breakdown {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 12px;
+  column-gap: 24px;
+  align-items: baseline;
+}
+.breakdown dt {
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.breakdown dt .sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+}
+.breakdown dd {
+  margin: 0;
+  font-family: var(--ac-sans);
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+  text-align: right;
+}
+.breakdown .total-row dt,
+.breakdown .total-row dd {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+.breakdown .total-row dt { color: #fff; }
+.breakdown .total-row dd { font-weight: 700; font-size: 22px; }
+
+.meta-line {
+  margin: 0;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.small-note {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.nudge {
+  background: #FFF4B8;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+.nudge p { margin: 0; color: #222; font-size: 14px; line-height: 1.5; }
+.nudge button {
+  justify-self: start;
+  background: #000;
+  color: #fff;
+  border: 0;
+  padding: 10px 16px;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+}
+.nudge button:hover { filter: brightness(1.15); }
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  background: var(--ac-accent);
+  color: #000;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  transition: transform 0.2s, filter 0.2s;
+  justify-self: start;
+}
+.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+/* ── Notes section ─────────────────────────────────────────────── */
+.notes {
+  padding: 56px var(--ac-section-px) 112px;
+  max-width: var(--ac-content-max);
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.notes .grid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 980px;
+}
+@media (min-width: 768px) {
+  .notes .grid { grid-template-columns: 1fr 1fr; }
+}
+.notes h3 {
+  margin: 0;
+  font-family: var(--ac-sans);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.notes p {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+footer.foot {
+  padding: 28px var(--ac-section-px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+
+/* ── Desktop: compact everything into one viewport ─────────────── */
+@media (min-width: 1024px) {
+  .hero {
+    padding: 24px var(--ac-section-px) 12px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 3vw, 46px);
+    margin: 10px 0 0;
+  }
+  .hero p.intro { display: none; }
+  .calc {
+    padding-top: 14px;
+    padding-bottom: 40px;
+    gap: 28px;
+  }
+  .inputs { gap: 18px; }
+  .tiers { gap: 6px; }
+  .tier { padding: 9px 14px; }
+  fieldset.group { gap: 12px; }
+  .quote {
+    position: sticky;
+    top: 74px;
+  }
+}
+
+/* ── Mobile: sticky bottom price bar ───────────────────────────── */
+.sticky-price { display: none; }
+@media (max-width: 1023px) {
+  .sticky-price {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px var(--ac-section-px);
+    background: rgba(13, 20, 22, 0.96);
+    border-top: 2px solid var(--ac-accent);
+    z-index: 20;
+    backdrop-filter: blur(10px);
+  }
+  .sp-label {
+    font-family: var(--ac-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .sp-total {
+    font-family: var(--ac-sans);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.025em;
+    color: #fff;
+  }
+  .notes { padding-bottom: calc(112px + 60px); }
+  footer.foot { padding-bottom: calc(28px + 60px); }
+}
+
+/* ── Print / PDF ───────────────────────────────────────────────── */
+.btn-print {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 11px 0;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ac-ink-dim);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-print:hover { color: #fff; border-color: rgba(255,255,255,0.28); }
+
+@media print {
+  @page { size: A4 portrait; margin: 20mm 18mm; }
+  :root {
+    --ac-bg: #fff; --ac-bg-alt: #f5f5f5;
+    --ac-accent: #2d7a87;
+    --ac-card-bg: #f5f5f5; --ac-card-alt: #efefef;
+    --ac-teal-bg: #eef7f8;
+    --ac-rule: #ccc; --ac-ink: #111; --ac-ink-dim: #666;
+  }
+  html, body { background: #fff !important; color: #111 !important; }
+  .hero, .notes, .foot, .sticky-price, .btn-print, .nudge > button { display: none !important; }
+  header.brand {
+    position: static !important; background: #fff !important;
+    border-bottom: 2px solid #111 !important;
+    padding: 0 0 14px !important; margin-bottom: 24px !important;
+  }
+  header.brand .mark, header.brand .right { color: #111 !important; }
+  .calc { background: transparent !important; border: none !important; padding: 0 !important; }
+  .inputs { background: #f7f7f7 !important; }
+  .quote { background: #fff !important; border: 1px solid #ccc !important; }
+  * { color: #111 !important; }
+  .eyebrow { color: #2d7a87 !important; }
+  .label, .helper { color: #666 !important; }
+  .tier { background: #f5f5f5 !important; border-color: #ccc !important; }
+  .tier[aria-checked="true"] { background: #2d7a87 !important; border-color: #2d7a87 !important; }
+  .tier[aria-checked="true"] * { color: #fff !important; }
+  .grp-btn { background: #f5f5f5 !important; border-color: #ccc !important; }
+  .grp-btn[aria-checked="true"] { background: #111 !important; }
+  .grp-btn[aria-checked="true"] * { color: #fff !important; }
+  button[data-preseason] { background: #f5f5f5 !important; border-color: #ccc !important; }
+  button[data-preseason][aria-pressed="true"] { background: #111 !important; }
+  button[data-preseason][aria-pressed="true"] * { color: #fff !important; }
+  .stepper button { background: #eee !important; border-color: #ccc !important; }
+  .stepper input { background: #fff !important; border-color: #ccc !important; }
+  .accent { color: #2d7a87 !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="brand">
+  <a href="/" class="mark">A.C MEDIA</a>
+  <span class="right">PRICING · CALCULATOR</span>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">FOR COACHES &amp; ATHLETIC DEPARTMENTS</p>
+  <h1>A quick estimate for your <span class="accent">team shoot.</span></h1>
+  <p class="intro">
+    Use this when your team size or package combination is not on the pricing
+    sheet. It runs the same math, so the number you see here is the number you
+    would see on a quote.
+  </p>
+</section>
+
+<section class="calc" aria-label="Pricing calculator">
+  <!-- Inputs -->
+  <section class="inputs" aria-label="Inputs">
+
+    <fieldset class="group">
+      <legend class="eyebrow">01 — TEAM</legend>
+
+      <div>
+        <span class="label">Team size</span>
+        <div class="stepper">
+          <button type="button" id="team-dec" aria-label="Decrease team size">−</button>
+          <input id="team-size" type="number" inputmode="numeric" min="6" value="20" aria-label="Team size" />
+          <button type="button" id="team-inc" aria-label="Increase team size">+</button>
+        </div>
+        <p class="error-text" id="team-error" hidden>Minimum team size is 6 athletes.</p>
+      </div>
+
+      <div>
+        <span class="label">Preseason shoot?</span>
+        <div class="toggle" role="group" aria-label="Preseason">
+          <button type="button" data-preseason="false" aria-pressed="true">No</button>
+          <button type="button" data-preseason="true"  aria-pressed="false">Yes</button>
+        </div>
+        <p class="helper">Adds $100 travel fee.</p>
+      </div>
+    </fieldset>
+
+    <fieldset class="group">
+      <legend class="eyebrow">02 — PACKAGE</legend>
+      <div class="tiers" id="tiers" role="radiogroup" aria-label="Photo tier"></div>
+    </fieldset>
+
+    <fieldset class="group" id="groups-fieldset">
+      <legend class="eyebrow">03 — GROUP PHOTOS</legend>
+      <div class="groups" id="groups"></div>
+      <p class="helper">Group photos are small groups of 2-3 to 10-15 athletes per frame.</p>
+    </fieldset>
+  </section>
+
+  <!-- Output -->
+  <aside class="quote" aria-label="Quote">
+    <p class="eyebrow">Your quote</p>
+    <div id="quote-body"></div>
+    <button type="button" class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </aside>
+</section>
+
+<section class="notes">
+  <p class="eyebrow">NOTES</p>
+  <div class="grid">
+    <div>
+      <h3>What is included</h3>
+      <p>Setup, teardown, equipment, travel inside the standard service area, the shoot itself, edits, and delivery. A full team photo is included if you want one.</p>
+    </div>
+    <div>
+      <h3>When the travel fee applies</h3>
+      <p>Preseason shoots that fall outside the standard travel window add a flat $100. Confirmed when the date is booked.</p>
+    </div>
+    <div>
+      <h3>Group photos</h3>
+      <p>Small groups of 2-3 to 10-15 athletes per frame. Captains, position groups, seniors, that kind of thing. All-Access includes unlimited groups.</p>
+    </div>
+    <div>
+      <h3>Larger teams or unusual combinations</h3>
+      <p>Anything 45+ on All-Access, or a configuration that does not fit the calculator, is a custom quote. Email alternate.creative.media@gmail.com.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">A.C MEDIA · COLE@A-CMEDIA.COM · 24-HR RESPONSE</footer>
+
+<div class="sticky-price" id="sticky-price" aria-live="polite">
+  <span class="sp-label">Estimate</span>
+  <span class="sp-total" id="sp-total">—</span>
+</div>
+
+<script>
+/* ──────────────────────────────────────────────────────────────────────
+   Photo shoot pricing logic
+   ──────────────────────────────────────────────────────────────────────
+   Edit the constants in CONFIG to change prices.
+   See README.md for guidance.
+   ────────────────────────────────────────────────────────────────────── */
+
+const CONFIG = {
+  BASE_FEE: 400,
+  TRAVEL_FEE: 100,
+  PER_ATHLETE_FLOOR: 5,
+  ALL_ACCESS_RATE: 110,
+  ALL_ACCESS_MAX_SIZE: 44,
+  MIN_TEAM_SIZE: 6,
+  GROUP_EXTRAPOLATION: 3,
+  CONTACT_EMAIL: "alternate.creative.media@gmail.com",
+
+  RATE_MATRIX: {
+    "1-choice":  [7, 12, 16, 20],
+    "2-choice":  [15, 19, 22, 25],
+    "3-choice":  [25, 30, 33, 38],
+    "5-choice":  [45, 50, 53, 57],
+    "8-choice":  [70, 75, 78, 82],
+  },
+};
+
+const TIERS = [
+  { id: "1-choice",   label: "1-choice",   desc: "One individual photo per athlete." },
+  { id: "2-choice",   label: "2-choice",   desc: "Two individual photos per athlete." },
+  { id: "3-choice",   label: "3-choice",   desc: "Three individual photos per athlete." },
+  { id: "5-choice",   label: "5-choice",   desc: "Five individual photos per athlete." },
+  { id: "8-choice",   label: "8-choice",   desc: "Eight individual photos per athlete." },
+  { id: "all-access", label: "All-Access", desc: "Practically unlimited photos per athlete plus unlimited groups." },
+];
+
+const TIME_TABLE = {
+  "1-choice":   { 10: "1.5 hr", 30: "1.5 hr", 60: "3-4.5 hr", 90: "3-5.5 hr" },
+  "2-choice":   { 10: "2 hr", 30: "2.5-3 hr" },
+  "3-choice":   { 10: "1.5-2 hr", 40: "4 hr" },
+  "all-access": { 8: "3 hr", 10: "3-4 hr", 20: "4-5 hr", 30: "5-6 hr", 40: "6 hr" },
+};
+
+function teamDiscount(n) {
+  if (n <= 6) return 0;
+  if (n <= 60) return (0.30 * (n - 6)) / 54;
+  if (n <= 90) return 0.30 + (0.05 * (n - 60)) / 30;
+  return 0.35;
+}
+
+function baseRate(tier, groups) {
+  const row = CONFIG.RATE_MATRIX[tier];
+  const g = Math.max(0, groups);
+  if (g <= 3) return row[g];
+  return row[3] + (g - 3) * CONFIG.GROUP_EXTRAPOLATION;
+}
+
+function quote(input) {
+  const { teamSize, tier, groups, preseason } = input;
+
+  if (teamSize < CONFIG.MIN_TEAM_SIZE) {
+    return { kind: "error", message: `Minimum team size is ${CONFIG.MIN_TEAM_SIZE} athletes.` };
+  }
+
+  if (tier === "all-access") {
+    if (teamSize > CONFIG.ALL_ACCESS_MAX_SIZE) {
+      return {
+        kind: "custom-quote",
+        message: `For teams of 45 or more, All-Access is a custom quote. Email ${CONFIG.CONTACT_EMAIL} for pricing.`,
+      };
+    }
+    const athleteRate = CONFIG.ALL_ACCESS_RATE;
+    const athleteSubtotal = athleteRate * teamSize;
+    const travel = preseason ? CONFIG.TRAVEL_FEE : 0;
+    return {
+      kind: "ok",
+      total: CONFIG.BASE_FEE + athleteSubtotal + travel,
+      lines: {
+        baseFee: CONFIG.BASE_FEE,
+        athleteRate,
+        athleteSubtotal,
+        travel,
+        baseRateBeforeDiscount: athleteRate,
+        discountPct: 0,
+        flooredApplied: false,
+      },
+    };
+  }
+
+  const rawBase = baseRate(tier, groups);
+  const disc = teamDiscount(teamSize);
+  const discounted = rawBase * (1 - disc);
+  const flooredApplied = discounted < CONFIG.PER_ATHLETE_FLOOR;
+  const athleteRate = Math.max(CONFIG.PER_ATHLETE_FLOOR, discounted);
+  const athleteSubtotal = athleteRate * teamSize;
+  const travel = preseason ? CONFIG.TRAVEL_FEE : 0;
+
+  return {
+    kind: "ok",
+    total: CONFIG.BASE_FEE + athleteSubtotal + travel,
+    lines: {
+      baseFee: CONFIG.BASE_FEE,
+      athleteRate,
+      athleteSubtotal,
+      travel,
+      baseRateBeforeDiscount: rawBase,
+      discountPct: disc,
+      flooredApplied,
+    },
+  };
+}
+
+function nudge(input) {
+  const { tier, groups } = input;
+  if (tier === "5-choice" && groups >= 5) {
+    return { message: "At this group count, All-Access usually gives you more for similar money. Want to switch?", suggestSwitch: true };
+  }
+  if (tier === "8-choice" && groups >= 3) {
+    return { message: "At this group count, All-Access usually gives you more for similar money. Want to switch?", suggestSwitch: true };
+  }
+  return null;
+}
+
+function shootTimeEstimate(tier, teamSize) {
+  const row = TIME_TABLE[tier];
+  if (!row) return null;
+  const points = Object.keys(row).map(Number).sort((a, b) => a - b);
+  let nearest = points[0];
+  let best = Math.abs(teamSize - nearest);
+  for (const p of points) {
+    const d = Math.abs(teamSize - p);
+    if (d < best) { best = d; nearest = p; }
+  }
+  return "~" + row[nearest];
+}
+
+/* ── Formatters ─────────────────────────────────────────────────── */
+
+const fmtUSD = (n) => new Intl.NumberFormat("en-US", {
+  style: "currency", currency: "USD",
+  maximumFractionDigits: n % 1 === 0 ? 0 : 2,
+}).format(n);
+
+const fmtRate = (n) => new Intl.NumberFormat("en-US", {
+  style: "currency", currency: "USD",
+  minimumFractionDigits: 2, maximumFractionDigits: 2,
+}).format(n);
+
+/* ── State ──────────────────────────────────────────────────────── */
+
+const state = {
+  teamSize: 20,
+  tier: "3-choice",
+  groups: 1,
+  preseason: false,
+};
+
+/* ── Render: tier cards ────────────────────────────────────────── */
+
+const tiersEl = document.getElementById("tiers");
+TIERS.forEach((t) => {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "tier";
+  btn.setAttribute("role", "radio");
+  btn.dataset.tier = t.id;
+  btn.innerHTML = `
+    <span class="dot" aria-hidden="true"></span>
+    <span>
+      <span class="name">${t.label}</span>
+      <span class="desc">${t.desc}</span>
+    </span>
+  `;
+  btn.addEventListener("click", () => {
+    state.tier = t.id;
+    render();
+  });
+  tiersEl.appendChild(btn);
+});
+
+/* ── Render: group picker ──────────────────────────────────────── */
+
+const groupsEl = document.getElementById("groups");
+function renderGroupPicker() {
+  groupsEl.innerHTML = "";
+  [0, 1, 2, 3].forEach((n) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chip";
+    b.textContent = String(n);
+    b.setAttribute("aria-pressed", String(state.groups === n));
+    b.addEventListener("click", () => { state.groups = n; render(); });
+    groupsEl.appendChild(b);
+  });
+  const plus = document.createElement("button");
+  plus.type = "button";
+  plus.className = "chip";
+  plus.textContent = "+";
+  plus.setAttribute("aria-label", "More groups");
+  plus.setAttribute("aria-pressed", String(state.groups > 3));
+  plus.addEventListener("click", () => {
+    state.groups = Math.max(state.groups + 1, 4);
+    render();
+  });
+  groupsEl.appendChild(plus);
+
+  if (state.groups > 3) {
+    const counter = document.createElement("span");
+    counter.className = "groups-count";
+    counter.textContent = state.groups + " GROUPS";
+    groupsEl.appendChild(counter);
+  }
+}
+
+/* ── Render: team-size stepper ─────────────────────────────────── */
+
+const teamInput = document.getElementById("team-size");
+const teamError = document.getElementById("team-error");
+document.getElementById("team-dec").addEventListener("click", () => {
+  state.teamSize = Math.max(CONFIG.MIN_TEAM_SIZE, state.teamSize - 1);
+  render();
+});
+document.getElementById("team-inc").addEventListener("click", () => {
+  state.teamSize = state.teamSize + 1;
+  render();
+});
+teamInput.addEventListener("input", (e) => {
+  const v = parseInt(e.target.value, 10);
+  state.teamSize = Number.isFinite(v) ? v : CONFIG.MIN_TEAM_SIZE;
+  render();
+});
+
+/* ── Render: preseason toggle ──────────────────────────────────── */
+
+document.querySelectorAll("[data-preseason]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    state.preseason = btn.dataset.preseason === "true";
+    render();
+  });
+});
+
+/* ── Render: quote panel ───────────────────────────────────────── */
+
+const quoteBody = document.getElementById("quote-body");
+const groupsFieldset = document.getElementById("groups-fieldset");
+
+function render() {
+  // sync team size input
+  if (document.activeElement !== teamInput) {
+    teamInput.value = state.teamSize;
+  }
+  teamError.hidden = state.teamSize >= CONFIG.MIN_TEAM_SIZE;
+
+  // sync tier cards
+  document.querySelectorAll(".tier").forEach((el) => {
+    el.setAttribute("aria-checked", String(el.dataset.tier === state.tier));
+  });
+
+  // sync preseason toggle
+  document.querySelectorAll("[data-preseason]").forEach((btn) => {
+    btn.setAttribute("aria-pressed", String((btn.dataset.preseason === "true") === state.preseason));
+  });
+
+  // hide groups for all-access
+  const isAA = state.tier === "all-access";
+  groupsFieldset.style.display = isAA ? "none" : "";
+
+  renderGroupPicker();
+
+  const input = {
+    teamSize: state.teamSize,
+    tier: state.tier,
+    groups: isAA ? 0 : state.groups,
+    preseason: state.preseason,
+  };
+  const r = quote(input);
+  const n = nudge(input);
+  const time = shootTimeEstimate(state.tier, state.teamSize);
+
+  updateStickyBar(r);
+  quoteBody.innerHTML = "";
+
+  if (r.kind === "error") {
+    const p = document.createElement("p");
+    p.className = "custom-head";
+    p.style.color = "var(--ac-ink-dim)";
+    p.textContent = r.message;
+    quoteBody.appendChild(p);
+    return;
+  }
+
+  if (r.kind === "custom-quote") {
+    const head = document.createElement("p");
+    head.className = "custom-head";
+    head.textContent = "Custom quote";
+    const body = document.createElement("p");
+    body.className = "custom-body";
+    body.textContent = r.message;
+    const link = document.createElement("a");
+    link.className = "btn-primary";
+    link.href = "mailto:" + CONFIG.CONTACT_EMAIL + "?subject=All-Access%20pricing%20for%20a%20team%20of%2045%2B";
+    link.textContent = "Email " + CONFIG.CONTACT_EMAIL + " →";
+    quoteBody.appendChild(head);
+    quoteBody.appendChild(body);
+    quoteBody.appendChild(link);
+    return;
+  }
+
+  // ok
+  const totalEl = document.createElement("p");
+  totalEl.className = "total";
+  totalEl.textContent = fmtUSD(r.total);
+  quoteBody.appendChild(totalEl);
+
+  const dl = document.createElement("dl");
+  dl.className = "breakdown";
+  const addRow = (label, value, sub, isTotal) => {
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    if (sub) {
+      const s = document.createElement("span");
+      s.className = "sub";
+      s.textContent = sub;
+      dt.appendChild(s);
+    }
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    if (isTotal) {
+      dt.parentElement?.classList?.add("total-row");
+      dt.classList.add("_t");
+      dd.classList.add("_t");
+    }
+    dl.appendChild(dt);
+    dl.appendChild(dd);
+    if (isTotal) {
+      dt.parentElement?.classList?.add("total-row");
+    }
+  };
+
+  addRow("Base shoot fee", fmtUSD(r.lines.baseFee));
+  const perLabel = isAA
+    ? `All-Access rate × ${state.teamSize}`
+    : `Per-athlete × ${state.teamSize}${r.lines.flooredApplied ? " (floor)" : ""}`;
+  const perSub = isAA
+    ? fmtRate(r.lines.athleteRate) + " each"
+    : fmtRate(r.lines.athleteRate) + " each · " + Math.round(r.lines.discountPct * 100) + "% off " + fmtRate(r.lines.baseRateBeforeDiscount);
+  addRow(perLabel, fmtUSD(r.lines.athleteSubtotal), perSub);
+  if (r.lines.travel > 0) {
+    addRow("Travel fee (preseason)", fmtUSD(r.lines.travel));
+  }
+  // total row — wrap in a contents row by using a class on dt/dd
+  const totalDt = document.createElement("dt");
+  totalDt.style.paddingTop = "14px";
+  totalDt.style.borderTop = "1px solid var(--ac-rule)";
+  totalDt.style.color = "var(--ac-ink)";
+  totalDt.textContent = "Total";
+  const totalDd = document.createElement("dd");
+  totalDd.style.paddingTop = "14px";
+  totalDd.style.borderTop = "1px solid var(--ac-rule)";
+  totalDd.style.fontWeight = "700";
+  totalDd.style.fontSize = "22px";
+  totalDd.textContent = fmtUSD(r.total);
+  dl.appendChild(totalDt);
+  dl.appendChild(totalDd);
+  quoteBody.appendChild(dl);
+
+  const timeWrap = document.createElement("div");
+  const tm = document.createElement("p");
+  tm.className = "meta-line";
+  tm.textContent = "ESTIMATED SHOOT TIME · " + (time ?? "CONFIRMED AT BOOKING");
+  const tn = document.createElement("p");
+  tn.className = "small-note";
+  tn.textContent = "Add ~60 minutes for setup and teardown, and ~10 minutes per group photo.";
+  timeWrap.appendChild(tm);
+  timeWrap.appendChild(tn);
+  quoteBody.appendChild(timeWrap);
+
+  if (n) {
+    const box = document.createElement("div");
+    box.className = "nudge";
+    box.setAttribute("role", "status");
+    const msg = document.createElement("p");
+    msg.textContent = n.message;
+    box.appendChild(msg);
+    if (n.suggestSwitch) {
+      const sw = document.createElement("button");
+      sw.type = "button";
+      sw.textContent = "Switch to All-Access →";
+      sw.addEventListener("click", () => { state.tier = "all-access"; render(); });
+      box.appendChild(sw);
+    }
+    quoteBody.appendChild(box);
+  }
+
+  const incl = document.createElement("p");
+  incl.className = "small-note";
+  incl.style.color = "var(--ac-ink-dim)";
+  incl.textContent = "A full team photo is included if you want one.";
+  quoteBody.appendChild(incl);
+}
+
+const spTotal = document.getElementById("sp-total");
+function updateStickyBar(r) {
+  if (!spTotal) return;
+  if (r.kind === "ok") spTotal.textContent = fmtUSD(r.total);
+  else if (r.kind === "custom-quote") spTotal.textContent = "Custom";
+  else spTotal.textContent = "—";
+}
+
+render();
+</script>
+</body>
+</html>

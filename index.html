@@ -4,433 +4,615 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, follow" />
-<title>Pricing calculator — A.C Media</title>
-<meta name="description" content="Estimate a team photo shoot package in seconds. For coaches and athletic departments." />
+<title>Sports Photography · Pricing &amp; Shoot Guide · A.C Media</title>
+<meta name="description" content="Photo shoot pricing for college athletic departments at Binghamton. Packages, group photos, booking, and a live calculator." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@1,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@1,8..60,400&display=swap" rel="stylesheet" />
 
 <style>
-/* ── A.C Media tokens ──────────────────────────────────────────── */
+/* ── Tokens ────────────────────────────────────────────────────── */
 :root {
-  --ac-bg:        #000000;
-  --ac-bg-alt:    oklch(0.08 0.003 200);
-  --ac-accent:    #7EB6C0;
-  --ac-card-bg:   oklch(0.13 0.004 200);
-  --ac-card-alt:  oklch(0.18 0.005 200);
-  --ac-teal-bg:   oklch(0.22 0.04 204);
+  --bg:        #080808;
+  --bg-1:      #101010;
+  --bg-2:      #161616;
+  --ink:       #ffffff;
+  --ink-mid:   rgba(255,255,255,0.62);
+  --ink-faint: rgba(255,255,255,0.32);
+  --teal:      #7EB6C0;
+  --teal-deep: #5a99a4;
+  --teal-bg:   rgba(126,182,192,0.09);
+  --rule:      rgba(255,255,255,0.1);
 
-  --ac-sans:  "Inter", system-ui, sans-serif;
-  --ac-serif: "Source Serif 4", Georgia, serif;
-  --ac-mono:  "JetBrains Mono", ui-monospace, monospace;
+  --sans:  "Inter", system-ui, sans-serif;
+  --serif: "Source Serif 4", Georgia, serif;
+  --mono:  "JetBrains Mono", ui-monospace, monospace;
 
-  --ac-section-px: clamp(20px, 4vw, 56px);
-  --ac-content-max: 1328px;
+  --px:  clamp(20px, 5vw, 72px);
+  --max: 1240px;
 }
 
-* { box-sizing: border-box; }
-html { background: var(--ac-bg); -webkit-text-size-adjust: 100%; }
+/* ── Reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg); -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
-  font-family: var(--ac-sans);
-  color: #fff;
-  background: var(--ac-bg);
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
   -webkit-font-smoothing: antialiased;
-  line-height: 1.4;
+  line-height: 1.5;
 }
-::selection { background: var(--ac-accent); color: #000; }
-
+::selection { background: var(--teal); color: #000; }
 a { color: inherit; }
+p { margin: 0; }
+h1, h2, h3 { margin: 0; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
 
-:focus-visible {
-  outline: 2px solid var(--ac-accent);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
+/* ── Utilities ─────────────────────────────────────────────────── */
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--px); }
 
-/* ── Type helpers ──────────────────────────────────────────────── */
-.eyebrow {
-  font-family: var(--ac-mono);
+.eye {
+  display: block;
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: var(--ac-accent);
   text-transform: uppercase;
-  margin: 0;
-}
-.label {
-  display: block;
-  font-family: var(--ac-mono);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 10px;
-}
-.helper {
-  font-family: var(--ac-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin: 10px 0 0;
-}
-.error-text {
-  font-family: var(--ac-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ac-accent);
-  margin: 10px 0 0;
+  color: var(--teal);
+  margin: 0 0 20px;
 }
 .accent {
-  font-family: var(--ac-serif);
+  font-family: var(--serif);
   font-style: italic;
   font-weight: 400;
-  color: var(--ac-accent);
+  color: var(--teal);
 }
 
-/* ── Page layout ───────────────────────────────────────────────── */
-header.brand {
+/* ── Nav ───────────────────────────────────────────────────────── */
+.site-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px var(--ac-section-px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(8px);
+  padding: 14px var(--px);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100;
+  background: rgba(8,8,8,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
 }
-header.brand .mark {
-  font-family: var(--ac-mono);
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  color: #fff;
-  text-transform: uppercase;
+.nav-logo {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+.nav-cta {
+  font-family: var(--mono);
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+  background: var(--teal);
+  padding: 10px 18px;
+  transition: filter 0.2s;
+}
+.nav-cta:hover { filter: brightness(1.1); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink-mid);
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); }
+@media (max-width: 700px) { .nav-links { display: none; } }
+
+/* ── Print / PDF ───────────────────────────────────────────────── */
+.calc-island .btn-print {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 11px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  background: transparent;
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.calc-island .btn-print:hover { color: var(--ink); border-color: rgba(255,255,255,0.3); }
+
+@media print {
+  @page { size: A4 portrait; margin: 20mm 18mm; }
+  :root {
+    --bg: #fff; --bg-1: #f7f7f7; --bg-2: #efefef;
+    --ink: #111; --ink-mid: #555; --ink-faint: #888;
+    --teal: #2d7a87; --teal-bg: #eef7f8; --rule: #ccc;
+  }
+  html, body { background: #fff !important; color: #111 !important; }
+  .site-nav, .hero, .section, .showcase, .duo,
+  .closer, .lp-footer, .sticky-price,
+  .calc-island .btn-print, .nudge > button { display: none !important; }
+  #calculator {
+    display: block !important;
+    background: #fff !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+  #calculator::before {
+    content: "A.C Media — Pricing Quote";
+    display: block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #111;
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #111;
+  }
+  #calculator > .wrap { display: none !important; }
+  #calculator > .wrap + .wrap { display: none !important; }
+  .calc-island { padding: 0 !important; }
+  .calc-island .calc { background: transparent !important; border: none !important; padding: 0 !important; }
+  .calc-island .inputs { background: #f7f7f7 !important; }
+  .calc-island .quote { background: #fff !important; border: 1px solid #ccc !important; }
+  * { color: #111 !important; }
+  .calc-island .eyebrow { color: #2d7a87 !important; }
+  .calc-island .label, .calc-island .helper { color: #666 !important; }
+  .calc-island .tier { background: #f5f5f5 !important; border-color: #ccc !important; }
+  .calc-island .tier[aria-checked="true"] { background: #2d7a87 !important; border-color: #2d7a87 !important; }
+  .calc-island .tier[aria-checked="true"] * { color: #fff !important; }
+  .calc-island .grp-btn { background: #f5f5f5 !important; border-color: #ccc !important; }
+  .calc-island .grp-btn[aria-checked="true"] { background: #111 !important; }
+  .calc-island .grp-btn[aria-checked="true"] * { color: #fff !important; }
+  .calc-island button[data-preseason] { background: #f5f5f5 !important; border-color: #ccc !important; }
+  .calc-island button[data-preseason][aria-pressed="true"] { background: #111 !important; }
+  .calc-island button[data-preseason][aria-pressed="true"] * { color: #fff !important; }
+  .calc-island .stepper button { background: #eee !important; border-color: #ccc !important; }
+  .calc-island .stepper input { background: #fff !important; border-color: #ccc !important; }
+}
+
+/* ── Hero ──────────────────────────────────────────────────────── */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100svh;
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+}
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
+}
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(40px, 5vw, 72px) var(--px);
+  border-right: 1px solid var(--rule);
+}
+@media (max-width: 800px) {
+  .hero__text { border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 40px; }
+}
+.hero__title {
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  margin: 20px 0 0;
+}
+.hero__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--rule);
+  margin-top: 48px;
+}
+@media (max-width: 500px) { .hero__meta { grid-template-columns: 1fr; } }
+.hero__meta-item {
+  padding: 16px 20px;
+  border-right: 1px solid var(--rule);
+}
+.hero__meta-item:first-child { padding-left: 0; }
+.hero__meta-item:last-child { border-right: 0; }
+@media (max-width: 500px) {
+  .hero__meta-item { border-right: 0; border-top: 1px solid var(--rule); padding: 12px 0; }
+  .hero__meta-item:first-child { border-top: 0; }
+}
+.hero__meta-key {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 5px;
+}
+.hero__meta-val {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
   text-decoration: none;
 }
-header.brand .right {
-  font-family: var(--ac-mono);
+a.hero__meta-val { color: var(--teal); }
+a.hero__meta-val:hover { text-decoration: underline; }
+.hero__cta {
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.55);
   text-transform: uppercase;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 600;
+  padding-top: 28px;
+  border-top: 1px solid var(--rule);
+  margin-top: 28px;
+  display: block;
+}
+.hero__cta:hover { text-decoration: underline; }
+
+.hero__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--bg);
+}
+@media (max-width: 800px) {
+  .hero__photos { height: 55svh; }
+}
+.hero__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 15%;
+  display: block;
 }
 
-.hero {
-  padding: 80px var(--ac-section-px) 40px;
-  max-width: var(--ac-content-max);
-  margin: 0 auto;
+/* ── Sections ──────────────────────────────────────────────────── */
+.section {
+  border-bottom: 1px solid var(--rule);
 }
-.hero h1 {
-  font-family: var(--ac-sans);
+.section--pad {
+  padding: clamp(56px, 7vw, 96px) var(--px);
+}
+.section--alt { background: var(--bg-1); }
+.section--alt2 { background: var(--bg-2); }
+
+/* Split: text | photo */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 60vh;
+}
+@media (max-width: 800px) { .split { grid-template-columns: 1fr; } }
+.split--photo-first { }
+.split__text {
+  padding: clamp(48px, 6vw, 88px) var(--px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--rule);
+}
+@media (max-width: 800px) {
+  .split__text { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+.split--photo-first .split__text { border-right: none; border-left: 1px solid var(--rule); order: 2; }
+.split--photo-first .split__photo { order: 1; }
+@media (max-width: 800px) {
+  .split--photo-first .split__text { border-left: none; order: 2; }
+  .split--photo-first .split__photo { order: 1; }
+}
+.split__photo {
+  overflow: hidden;
+  min-height: 400px;
+}
+.split__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+/* Section typography */
+.sec-head {
+  font-size: clamp(32px, 4vw, 58px);
   font-weight: 800;
-  font-size: clamp(40px, 7vw, 92px);
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: -0.03em;
-  color: #fff;
-  margin: 22px 0 0;
-  max-width: 1000px;
+  margin-bottom: 28px;
 }
-.hero p.intro {
-  margin: 24px 0 0;
-  max-width: 720px;
+.sec-body {
   font-size: 17px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.62;
+  color: var(--ink-mid);
+  max-width: 580px;
+}
+.sec-body p + p { margin-top: 16px; }
+.sec-body strong { color: var(--ink); font-weight: 600; }
+.sec-body em { font-style: italic; }
+.subhead {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--teal);
+  margin: 26px 0 8px;
 }
 
-.calc {
-  padding: 24px var(--ac-section-px) 80px;
-  max-width: var(--ac-content-max);
-  margin: 0 auto;
+/* ── Pull quote ────────────────────────────────────────────────── */
+.pull-quote {
+  border-left: 3px solid var(--teal);
+  background: var(--teal-bg);
+  padding: 22px 26px;
+  margin: 28px 0;
+  max-width: 580px;
+}
+.pull-quote p {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* ── Duo photos (choices / groups) ─────────────────────────────── */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: clamp(340px, 45vw, 580px);
+  gap: 3px;
+  border-top: 1px solid var(--rule);
+}
+@media (max-width: 640px) {
+  .duo { grid-template-columns: 1fr; height: auto; }
+}
+.duo__item {
+  position: relative;
+  overflow: hidden;
+}
+.duo__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+@media (max-width: 640px) {
+  .duo__item { height: 320px; }
+}
+.duo__label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ── Showcase grid (3 photos) ───────────────────────────────────── */
+.showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: clamp(320px, 42vw, 600px);
+  gap: 3px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 640px) {
+  .showcase { grid-template-columns: 1fr; height: auto; }
+}
+.showcase__item {
+  overflow: hidden;
+}
+.showcase__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+@media (max-width: 640px) {
+  .showcase__item { height: 320px; }
+}
+
+/* ── Stat row ──────────────────────────────────────────────────── */
+.stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border: 1px solid var(--rule);
+  margin-top: 40px;
+}
+@media (max-width: 560px) { .stat-row { grid-template-columns: 1fr; } }
+.stat-item { padding: 24px; border-right: 1px solid var(--rule); }
+.stat-item:last-child { border-right: 0; }
+@media (max-width: 560px) {
+  .stat-item { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .stat-item:last-child { border-bottom: 0; }
+}
+.stat-num {
+  display: block;
+  font-size: clamp(30px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.stat-unit { font-size: 0.48em; font-weight: 700; letter-spacing: 0; }
+.stat-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  display: block;
+}
+
+/* ── Callout row ───────────────────────────────────────────────── */
+.callout-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(126,182,192,0.2);
+  border: 1px solid rgba(126,182,192,0.2);
+  margin-bottom: 36px;
+}
+@media (max-width: 640px) { .callout-row { grid-template-columns: 1fr; } }
+.callout-item { background: rgba(126,182,192,0.07); padding: 18px 22px; }
+.callout-item__key {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.callout-item__val { font-size: 15px; line-height: 1.45; color: var(--ink-mid); }
+
+/* ── Package cards ─────────────────────────────────────────────── */
+.pkg-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
-}
-@media (min-width: 1024px) {
-  .calc { grid-template-columns: 1.1fr 1fr; }
-}
-
-.inputs { display: grid; gap: 36px; }
-
-fieldset.group {
-  border: 0;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 18px;
-}
-fieldset.group legend { padding: 0; margin-bottom: 4px; }
-
-/* ── Stepper ───────────────────────────────────────────────────── */
-.stepper {
-  display: inline-grid;
-  grid-template-columns: 44px 80px 44px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.02);
-}
-.stepper button {
-  background: transparent;
-  color: #fff;
-  border: 0;
-  cursor: pointer;
-  font-size: 22px;
-  font-family: var(--ac-sans);
-  font-weight: 500;
-  line-height: 1;
-}
-.stepper button:hover { background: rgba(126, 182, 192, 0.08); }
-.stepper input {
-  background: transparent;
-  color: #fff;
-  border: 0;
-  text-align: center;
-  font-family: var(--ac-sans);
-  font-size: 18px;
-  font-weight: 600;
-  outline: none;
-  width: 100%;
-  padding: 12px 0;
-  -moz-appearance: textfield;
-}
-.stepper input::-webkit-outer-spin-button,
-.stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-/* ── Toggle ────────────────────────────────────────────────────── */
-.toggle {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.02);
-  width: 200px;
-}
-.toggle button {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.85);
-  border: 0;
-  cursor: pointer;
-  padding: 12px 16px;
-  font-family: var(--ac-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 600;
-  transition: background 0.2s, color 0.2s;
-}
-.toggle button[aria-pressed="true"] {
-  background: var(--ac-accent);
-  color: #000;
-}
-
-/* ── Tier cards ────────────────────────────────────────────────── */
-.tiers { display: grid; gap: 10px; }
-.tier {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px;
-  text-align: left;
-  padding: 16px 18px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  cursor: pointer;
-  color: #fff;
-  align-items: baseline;
-  transition: border-color 0.2s, background 0.2s;
-}
-.tier:hover { border-color: rgba(126, 182, 192, 0.5); }
-.tier[aria-checked="true"] {
-  background: rgba(126, 182, 192, 0.06);
-  border-color: var(--ac-accent);
-}
-.tier .dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  margin-top: 6px;
-  transition: background 0.2s, border-color 0.2s;
-}
-.tier[aria-checked="true"] .dot {
-  background: var(--ac-accent);
-  border-color: var(--ac-accent);
-}
-.tier .name {
-  font-family: var(--ac-mono);
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  display: block;
-}
-.tier[aria-checked="true"] .name { color: var(--ac-accent); }
-.tier .desc {
-  display: block;
-  margin-top: 4px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  line-height: 1.45;
-}
-
-/* ── Group picker ──────────────────────────────────────────────── */
-.groups {
-  display: flex;
-  flex-wrap: wrap;
   gap: 8px;
-  align-items: center;
+  margin-top: 28px;
 }
-.chip {
-  min-width: 44px;
-  height: 44px;
-  padding: 0 14px;
-  background: rgba(255, 255, 255, 0.02);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  cursor: pointer;
-  font-family: var(--ac-mono);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+@media (min-width: 680px) { .pkg-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .pkg-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.pkg-card {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.chip:hover { border-color: rgba(126, 182, 192, 0.5); }
-.chip[aria-pressed="true"] {
-  background: var(--ac-accent);
-  color: #000;
-  border-color: var(--ac-accent);
-}
-.groups-count {
-  font-family: var(--ac-mono);
+.pkg-card--featured { border-color: var(--teal); background: rgba(126,182,192,0.06); }
+.pkg-card__name {
+  font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.7);
-  margin-left: 6px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
 }
+.pkg-card--featured .pkg-card__name { color: var(--teal); }
+.pkg-card__sub { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--teal); line-height: 1.3; }
+.pkg-card__body { font-size: 15px; line-height: 1.55; color: var(--ink-mid); }
+.pkg-card__note { font-size: 13px; color: var(--ink-faint); font-style: italic; margin-top: auto; }
 
-/* ── Quote panel ───────────────────────────────────────────────── */
-.quote {
-  position: relative;
-  background: var(--ac-card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-top: 2px solid var(--ac-accent);
-  padding: 32px clamp(20px, 3vw, 36px);
-  align-self: start;
+/* ── Logistics ─────────────────────────────────────────────────── */
+.logistics-grid {
   display: grid;
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  margin-top: 32px;
 }
-.quote .total {
-  margin: 0;
-  font-family: var(--ac-sans);
+@media (min-width: 900px) { .logistics-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.logistics-head {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+}
+.logistics-body { font-size: 16px; line-height: 1.62; color: var(--ink-mid); }
+.logistics-body p + p { margin-top: 14px; }
+.logistics-body strong { color: var(--ink); font-weight: 600; }
+.logistics-body em { font-style: italic; }
+
+/* ── Time table ────────────────────────────────────────────────── */
+.time-table-wrap { overflow-x: auto; margin-top: 28px; }
+.time-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.time-table th {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint); text-align: left;
+  padding: 10px 16px; border-bottom: 1px solid var(--rule);
+}
+.time-table th:last-child { text-align: right; }
+.time-table td { padding: 11px 16px; border-bottom: 1px solid var(--rule); color: var(--ink-mid); }
+.time-table tr:last-child td { border-bottom: 0; }
+.time-table td:last-child { font-family: var(--mono); font-size: 13px; color: var(--teal); text-align: right; }
+
+/* ── Closer ────────────────────────────────────────────────────── */
+.closer {
+  position: relative;
+  height: clamp(400px, 65vh, 740px);
+  overflow: hidden;
+}
+.closer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  display: block;
+}
+.closer__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(28px, 5vw, 64px) var(--px);
+}
+.closer__title {
+  font-size: clamp(36px, 5.5vw, 82px);
   font-weight: 800;
-  font-size: clamp(56px, 8vw, 96px);
   line-height: 0.95;
   letter-spacing: -0.03em;
   color: #fff;
+  margin-bottom: 20px;
 }
-.quote .custom-head {
-  margin: 0;
-  font-family: var(--ac-sans);
-  font-weight: 800;
-  font-size: clamp(36px, 5.5vw, 56px);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  color: #fff;
-}
-.quote .custom-body {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.breakdown {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  row-gap: 12px;
-  column-gap: 24px;
-  align-items: baseline;
-}
-.breakdown dt {
-  font-family: var(--ac-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
-}
-.breakdown dt .sub {
+.closer__sub {
   display: block;
-  margin-top: 4px;
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.45);
-}
-.breakdown dd {
-  margin: 0;
-  font-family: var(--ac-sans);
-  font-weight: 500;
-  font-size: 16px;
-  color: #fff;
-  text-align: right;
-}
-.breakdown .total-row dt,
-.breakdown .total-row dd {
-  padding-top: 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-.breakdown .total-row dt { color: #fff; }
-.breakdown .total-row dd { font-weight: 700; font-size: 22px; }
-
-.meta-line {
-  margin: 0;
-  font-family: var(--ac-mono);
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 22px;
 }
-.small-note {
-  margin: 6px 0 0;
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.nudge {
-  background: #FFF4B8;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 14px 16px;
-  display: grid;
-  gap: 10px;
-}
-.nudge p { margin: 0; color: #222; font-size: 14px; line-height: 1.5; }
-.nudge button {
-  justify-self: start;
-  background: #000;
-  color: #fff;
-  border: 0;
-  padding: 10px 16px;
-  font-family: var(--ac-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-weight: 600;
-  cursor: pointer;
-}
-.nudge button:hover { filter: brightness(1.15); }
-
-/* ── Buttons ───────────────────────────────────────────────────── */
-.btn-primary {
+.btn-book {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 22px;
-  background: var(--ac-accent);
+  padding: 14px 24px;
+  background: var(--teal);
   color: #000;
-  font-family: var(--ac-mono);
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -438,201 +620,548 @@ fieldset.group legend { padding: 0; margin-bottom: 4px; }
   text-decoration: none;
   border: 0;
   cursor: pointer;
-  transition: transform 0.2s, filter 0.2s;
-  justify-self: start;
+  transition: filter 0.2s, transform 0.2s;
 }
-.btn-primary:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.btn-book:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-/* ── Notes section ─────────────────────────────────────────────── */
-.notes {
-  padding: 56px var(--ac-section-px) 112px;
-  max-width: var(--ac-content-max);
-  margin: 0 auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-.notes .grid {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  max-width: 980px;
-}
-@media (min-width: 768px) {
-  .notes .grid { grid-template-columns: 1fr 1fr; }
-}
-.notes h3 {
-  margin: 0;
-  font-family: var(--ac-sans);
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #fff;
-}
-.notes p {
-  margin: 10px 0 0;
-  font-size: 15px;
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.72);
-}
-
-footer.foot {
-  padding: 28px var(--ac-section-px);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--ac-mono);
+/* ── Footer ────────────────────────────────────────────────────── */
+.lp-footer {
+  padding: 24px var(--px);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
-  text-align: center;
+  color: var(--ink-faint);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-/* ── Desktop: compact everything into one viewport ─────────────── */
-@media (min-width: 1024px) {
-  .hero {
-    padding: 24px var(--ac-section-px) 12px;
-  }
-  .hero h1 {
-    font-size: clamp(28px, 3vw, 46px);
-    margin: 10px 0 0;
-  }
-  .hero p.intro { display: none; }
-  .calc {
-    padding-top: 14px;
-    padding-bottom: 40px;
-    gap: 28px;
-  }
-  .inputs { gap: 18px; }
-  .tiers { gap: 6px; }
-  .tier { padding: 9px 14px; }
-  fieldset.group { gap: 12px; }
-  .quote {
-    position: sticky;
-    top: 74px;
-  }
+/* ══════════════════════════════════════════════════════════════════
+   CALCULATOR ISLAND — scoped so nothing leaks into page styles
+   ══════════════════════════════════════════════════════════════════ */
+.calc-island {
+  --ac-accent:  #7EB6C0;
+  --ac-card-bg: oklch(0.13 0.004 200);
+  --ac-mono:    "JetBrains Mono", ui-monospace, monospace;
+  --ac-sans:    "Inter", system-ui, sans-serif;
+  padding: 0 clamp(20px, 4vw, 56px) 56px;
 }
+.calc-island .eyebrow {
+  font-family: var(--ac-mono); font-size: 11px; letter-spacing: 0.18em;
+  color: var(--ac-accent); text-transform: uppercase; margin: 0;
+}
+.calc-island .label {
+  display: block; font-family: var(--ac-mono); font-size: 10px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 10px;
+}
+.calc-island .helper {
+  font-family: var(--ac-mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55); margin: 10px 0 0;
+}
+.calc-island .error-text {
+  font-family: var(--ac-mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ac-accent); margin: 10px 0 0;
+}
+.calc-island .calc {
+  display: grid; grid-template-columns: 1fr; gap: 32px;
+  max-width: 1328px; margin: 0 auto;
+}
+@media (min-width: 1024px) { .calc-island .calc { grid-template-columns: 1.1fr 1fr; gap: 40px; } }
+.calc-island .inputs { display: grid; gap: 20px; }
+.calc-island fieldset.group { border: 0; padding: 0; margin: 0; display: grid; gap: 14px; }
+.calc-island fieldset.group legend { padding: 0; margin-bottom: 4px; }
+.calc-island .stepper {
+  display: inline-grid; grid-template-columns: 44px 80px 44px;
+  border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.02);
+}
+.calc-island .stepper button {
+  background: transparent; color: #fff; border: 0; cursor: pointer;
+  font-size: 22px; font-family: var(--ac-sans); font-weight: 500; line-height: 1;
+}
+.calc-island .stepper button:hover { background: rgba(126,182,192,0.08); }
+.calc-island .stepper input {
+  background: transparent; color: #fff; border: 0; text-align: center;
+  font-family: var(--ac-sans); font-size: 18px; font-weight: 600; outline: none;
+  width: 100%; padding: 12px 0; -moz-appearance: textfield;
+}
+.calc-island .stepper input::-webkit-outer-spin-button,
+.calc-island .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.calc-island .toggle {
+  display: inline-grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.02); width: 200px;
+}
+.calc-island .toggle button {
+  background: transparent; color: rgba(255,255,255,0.85); border: 0; cursor: pointer;
+  padding: 12px 16px; font-family: var(--ac-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.calc-island .toggle button[aria-pressed="true"] { background: var(--ac-accent); color: #000; }
+.calc-island .tiers { display: grid; gap: 6px; }
+.calc-island .tier {
+  display: grid; grid-template-columns: auto 1fr; gap: 14px; text-align: left;
+  padding: 10px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.10);
+  cursor: pointer; color: #fff; align-items: baseline; transition: border-color 0.2s, background 0.2s;
+}
+.calc-island .tier:hover { border-color: rgba(126,182,192,0.5); }
+.calc-island .tier[aria-checked="true"] { background: rgba(126,182,192,0.06); border-color: var(--ac-accent); }
+.calc-island .tier .dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.4); background: transparent; margin-top: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.calc-island .tier[aria-checked="true"] .dot { background: var(--ac-accent); border-color: var(--ac-accent); }
+.calc-island .tier .name {
+  font-family: var(--ac-mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; display: block;
+}
+.calc-island .tier[aria-checked="true"] .name { color: var(--ac-accent); }
+.calc-island .tier .desc { display: block; margin-top: 4px; font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.45; }
+.calc-island .groups { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.calc-island .chip {
+  min-width: 44px; height: 44px; padding: 0 14px; background: rgba(255,255,255,0.02); color: #fff;
+  border: 1px solid rgba(255,255,255,0.14); cursor: pointer; font-family: var(--ac-mono);
+  font-size: 14px; font-weight: 600; letter-spacing: 0.06em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.calc-island .chip:hover { border-color: rgba(126,182,192,0.5); }
+.calc-island .chip[aria-pressed="true"] { background: var(--ac-accent); color: #000; border-color: var(--ac-accent); }
+.calc-island .groups-count {
+  font-family: var(--ac-mono); font-size: 12px; letter-spacing: 0.12em; color: rgba(255,255,255,0.7); margin-left: 6px;
+}
+.calc-island .quote {
+  background: var(--ac-card-bg); border: 1px solid rgba(255,255,255,0.10);
+  border-top: 2px solid var(--ac-accent); padding: 32px clamp(20px,3vw,36px);
+  align-self: start; display: grid; gap: 24px; position: sticky; top: 68px;
+}
+.calc-island .quote .total {
+  margin: 0; font-family: var(--ac-sans); font-weight: 800;
+  font-size: clamp(52px, 7vw, 96px); line-height: 0.95; letter-spacing: -0.03em; color: #fff;
+}
+.calc-island .quote .custom-head {
+  margin: 0; font-family: var(--ac-sans); font-weight: 800;
+  font-size: clamp(32px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.025em; color: #fff;
+}
+.calc-island .quote .custom-body { margin: 0; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,0.78); }
+.calc-island .breakdown {
+  margin: 0; display: grid; grid-template-columns: 1fr auto;
+  row-gap: 12px; column-gap: 24px; align-items: baseline;
+}
+.calc-island .breakdown dt {
+  font-family: var(--ac-mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+}
+.calc-island .breakdown dt .sub {
+  display: block; margin-top: 4px; font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.45);
+}
+.calc-island .breakdown dd { margin: 0; font-family: var(--ac-sans); font-weight: 500; font-size: 16px; color: #fff; text-align: right; }
+.calc-island .meta-line { margin: 0; font-family: var(--ac-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+.calc-island .small-note { margin: 6px 0 0; font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.45); }
+.calc-island .nudge { background: #FFF4B8; border: 1px solid rgba(0,0,0,0.08); padding: 14px 16px; display: grid; gap: 10px; }
+.calc-island .nudge p { margin: 0; color: #222; font-size: 14px; line-height: 1.5; }
+.calc-island .nudge button {
+  justify-self: start; background: #000; color: #fff; border: 0; padding: 10px 16px;
+  font-family: var(--ac-mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 600; cursor: pointer;
+}
+.calc-island .btn-primary {
+  display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px;
+  background: var(--ac-accent); color: #000; font-family: var(--ac-mono); font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; text-decoration: none;
+  border: 0; cursor: pointer; transition: transform 0.2s, filter 0.2s; justify-self: start;
+}
+.calc-island .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.08); }
 
-/* ── Mobile: sticky bottom price bar ───────────────────────────── */
+/* ── Mobile sticky price bar ───────────────────────────────────── */
 .sticky-price { display: none; }
 @media (max-width: 1023px) {
   .sticky-price {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px var(--ac-section-px);
-    background: rgba(13, 20, 22, 0.96);
-    border-top: 2px solid var(--ac-accent);
-    z-index: 20;
-    backdrop-filter: blur(10px);
+    display: flex; position: fixed; bottom: 0; left: 0; right: 0;
+    align-items: center; justify-content: space-between;
+    padding: 12px var(--px); background: rgba(8,8,8,0.97);
+    border-top: 2px solid #7EB6C0; z-index: 200; backdrop-filter: blur(10px);
   }
-  .sp-label {
-    font-family: var(--ac-mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
-  }
-  .sp-total {
-    font-family: var(--ac-sans);
-    font-weight: 800;
-    font-size: 26px;
-    letter-spacing: -0.025em;
-    color: #fff;
-  }
-  .notes { padding-bottom: calc(112px + 60px); }
-  footer.foot { padding-bottom: calc(28px + 60px); }
+  .sp-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .sp-total { font-family: var(--sans); font-weight: 800; font-size: 26px; letter-spacing: -0.025em; color: #fff; }
+  .lp-footer { padding-bottom: calc(24px + 60px); }
 }
 </style>
 </head>
 <body>
 
-<header class="brand">
-  <a href="/" class="mark">A.C MEDIA</a>
-  <span class="right">PRICING · CALCULATOR</span>
+<!-- Nav ──────────────────────────────────────────────────────────── -->
+<header class="site-nav">
+  <a href="/">
+    <img src="images/ac-media-logo-sm.png" alt="A.C Media" class="nav-logo" />
+  </a>
+  <nav aria-label="Page sections">
+    <ul class="nav-links">
+      <li><a href="#the-shoot">The Shoot</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#logistics">Logistics</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#calculator">Calculator</a></li>
+    </ul>
+  </nav>
+  <a href="mailto:alternate.creative.media@gmail.com?subject=Booking%20inquiry" class="nav-cta">Learn more</a>
 </header>
 
+<!-- ── Hero ──────────────────────────────────────────────────────── -->
 <section class="hero">
-  <p class="eyebrow">FOR COACHES &amp; ATHLETIC DEPARTMENTS</p>
-  <h1>A quick estimate for your <span class="accent">team shoot.</span></h1>
-  <p class="intro">
-    Use this when your team size or package combination is not on the pricing
-    sheet. It runs the same math, so the number you see here is the number you
-    would see on a quote.
-  </p>
+  <div class="hero__text">
+    <div>
+      <span class="eye">Sports photography · 2026 · Binghamton</span>
+      <h1 class="hero__title">Pricing and<br>shoot guide.</h1>
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-key">Audience</span>
+          <span class="hero__meta-val">College athletic departments</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-key">Calculator</span>
+          <a href="#calculator" class="hero__meta-val">Jump to pricing →</a>
+        </div>
+      </div>
+    </div>
+    <a href="#calculator" class="hero__cta">Skip to calculator →</a>
+  </div>
+  <div class="hero__photos">
+    <img src="images/binghamton-university-baseball-media-day-binghamton-ny-amedia.jpg" alt="Binghamton baseball players with smoke and dramatic lighting" class="hero__photo-img" />
+    <img src="images/binghamton-university-mens-lacrosse-media-day-binghamton-ny-02235.jpg" alt="Binghamton lacrosse players jumping mid-air" class="hero__photo-img" />
+  </div>
 </section>
 
-<section class="calc" aria-label="Pricing calculator">
-  <!-- Inputs -->
-  <section class="inputs" aria-label="Inputs">
-
-    <fieldset class="group">
-      <legend class="eyebrow">01 — TEAM</legend>
-
-      <div>
-        <span class="label">Team size</span>
-        <div class="stepper">
-          <button type="button" id="team-dec" aria-label="Decrease team size">−</button>
-          <input id="team-size" type="number" inputmode="numeric" min="6" value="20" aria-label="Team size" />
-          <button type="button" id="team-inc" aria-label="Increase team size">+</button>
-        </div>
-        <p class="error-text" id="team-error" hidden>Minimum team size is 6 athletes.</p>
+<!-- ── Section 2 / What this shoot is ──────────────────────────── -->
+<section class="section section--alt" id="the-shoot">
+  <div class="split">
+    <div class="split__text">
+      <span class="eye">01 / The Shoot — What this shoot is</span>
+      <h2 class="sec-head">What this shoot is.</h2>
+      <div class="sec-body">
+        <p>Most college sports photoshoots end up producing what get called smile photos. Clean shots against a simple backdrop, athlete posed straight on, arms folded, smiling for the camera. They serve their purpose, but they tend to blend together and rarely stand out.</p>
+        <p>The shoots I run use dramatic lighting, deliberate composition, and props chosen specifically for the athletes being photographed. Each photo should feel like the actual person in the frame.</p>
+        <p>The process starts before the shoot day. Athletes complete their profile and the pre-shoot form so they arrive prepared, with their poses and prop ideas already decided. On the day, each athlete works through their choices and their groups in their scheduled slot.</p>
       </div>
-
-      <div>
-        <span class="label">Preseason shoot?</span>
-        <div class="toggle" role="group" aria-label="Preseason">
-          <button type="button" data-preseason="false" aria-pressed="true">No</button>
-          <button type="button" data-preseason="true"  aria-pressed="false">Yes</button>
-        </div>
-        <p class="helper">Adds $100 travel fee.</p>
-      </div>
-    </fieldset>
-
-    <fieldset class="group">
-      <legend class="eyebrow">02 — PACKAGE</legend>
-      <div class="tiers" id="tiers" role="radiogroup" aria-label="Photo tier"></div>
-    </fieldset>
-
-    <fieldset class="group" id="groups-fieldset">
-      <legend class="eyebrow">03 — GROUP PHOTOS</legend>
-      <div class="groups" id="groups"></div>
-      <p class="helper">Group photos are small groups of 2-3 to 10-15 athletes per frame.</p>
-    </fieldset>
-  </section>
-
-  <!-- Output -->
-  <aside class="quote" aria-label="Quote">
-    <p class="eyebrow">Your quote</p>
-    <div id="quote-body"></div>
-  </aside>
-</section>
-
-<section class="notes">
-  <p class="eyebrow">NOTES</p>
-  <div class="grid">
-    <div>
-      <h3>What is included</h3>
-      <p>Setup, teardown, equipment, travel inside the standard service area, the shoot itself, edits, and delivery. A full team photo is included if you want one.</p>
     </div>
-    <div>
-      <h3>When the travel fee applies</h3>
-      <p>Preseason shoots that fall outside the standard travel window add a flat $100. Confirmed when the date is booked.</p>
-    </div>
-    <div>
-      <h3>Group photos</h3>
-      <p>Small groups of 2-3 to 10-15 athletes per frame. Captains, position groups, seniors, that kind of thing. All-Access includes unlimited groups.</p>
-    </div>
-    <div>
-      <h3>Larger teams or unusual combinations</h3>
-      <p>Anything 45+ on All-Access, or a configuration that does not fit the calculator, is a custom quote. Email alternate.creative.media@gmail.com.</p>
+    <div class="split__photo">
+      <img src="images/binghamton-university-mens-tennis-media-day-binghamton-ny-08722.jpg" alt="Binghamton tennis player jumping to hit an overhead shot" />
     </div>
   </div>
 </section>
 
-<footer class="foot">A.C MEDIA · COLE@A-CMEDIA.COM · 24-HR RESPONSE</footer>
+<!-- ── Section 3 / What you get ─────────────────────────────────── -->
+<section class="section">
+  <div class="section--pad wrap">
+    <span class="eye">01 / The Shoot — What you get</span>
+    <h2 class="sec-head">What you get.</h2>
+    <div class="sec-body">
+      <p>Edited photos, delivered as a gallery each athlete accesses through their email. Galleries are typically ready within 1.5 months, often closer to two or three weeks. You'll get an email when yours is live.</p>
+      <p>Two kinds of photos come out of every shoot.</p>
+    </div>
+  </div>
+  <div class="duo">
+    <div class="duo__item">
+      <img src="images/binghamton-university-mens-soccer-media-day-binghamton-ny-07452.jpg" alt="Binghamton soccer player kicking ball with smoke and stadium lights" />
+      <span class="duo__label">Choices — individual photos</span>
+    </div>
+    <div class="duo__item">
+      <img src="images/binghamton-university-womens-lacrosse-media-day-binghamton-ny-00083.jpg" alt="Binghamton women's lacrosse team group photo with smoke" />
+      <span class="duo__label">Groups — 2–3 to 10–15 athletes per frame</span>
+    </div>
+  </div>
+  <div class="section--pad wrap" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="sec-body" style="max-width: 720px;">
+      <span class="subhead">Choices — <em>individual photos</em></span>
+      <p>One athlete per frame. These end up on team and athletic accounts, on athletes' personal pages, in marketing materials, and on the video boards during games. Anywhere athletics, the team, or the athlete needs an image of that player, it comes from here.</p>
+      <span class="subhead">Groups — <em>small group photos</em></span>
+      <p>Anywhere from 2–3 to 10–15 athletes per frame. They have a different job. They're more memorable, and they have more fun in them because athletes are with their friends doing more interesting things. Any coach reading this already knows: athletes get funny in groups. These show up before tournaments, after wins, and anytime a player or team gets featured.</p>
+      <p style="margin-top: 20px;"><span class="accent">A full team photo comes with any package if you want one.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 4 / Department asset ─────────────────────────────── -->
+<section class="section section--alt">
+  <div class="split split--photo-first">
+    <div class="split__photo">
+      <img src="images/binghamton-university-track-and-field-media-day-binghamton-ny-09934.jpg" alt="Binghamton track athlete in mid-sprint celebration with smoke" />
+    </div>
+    <div class="split__text">
+      <span class="eye">01 / The Shoot — Department asset</span>
+      <h2 class="sec-head">National reach.</h2>
+      <div class="sec-body">
+        <p>The right photo can reach a national audience. Most won't. But there's <span class="accent">almost no ceiling</span> for the ones that get attention — and this program has produced them.</p>
+        <p>The same images appear on video boards, in media guides, across social, and in national coverage when it comes. They don't expire after the season.</p>
+      </div>
+      <div class="pull-quote">
+        <p>One shoot. <span class="accent">No ceiling on what comes after.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Photo showcase ─────────────────────────────────────────────── -->
+<div class="showcase">
+  <div class="showcase__item">
+    <img src="images/binghamton-university-softball-media-day-binghamton-ny-00980.jpg" alt="Binghamton softball player running with glove" />
+  </div>
+  <div class="showcase__item">
+    <img src="images/binghamton-university-volleyball-media-day-binghamton-ny-07737.jpg" alt="Binghamton volleyball player doing full splits while holding ball" />
+  </div>
+  <div class="showcase__item">
+    <img src="images/binghamton-university-womens-soccer-media-day-binghamton-ny-07089.jpg" alt="Binghamton soccer goalkeeper meditating on soccer balls" />
+  </div>
+</div>
+
+<!-- ── Section 5 / What each package means ──────────────────────── -->
+<section class="section section--alt section--pad" id="packages">
+  <div class="wrap">
+    <span class="eye">02 / Packages — What each one means</span>
+    <h2 class="sec-head">What each package means for a coach.</h2>
+    <div class="sec-body" style="margin-top: 24px; max-width: 700px;">
+      <p>The packages scale by how many individual photos each athlete gets. Group photos can be added to any package at additional per-athlete cost. All pricing combinations are in the calculator below.</p>
+      <p>One thing to know before reading the packages: every athlete needs a warm-up. Photoshoots have warm-up time just like sports do. It usually takes a few photos before an athlete loosens up and looks comfortable on camera. The prep work each athlete does ahead of the shoot helps, but it doesn't fully replace getting in front of the lens. That's why dependable poses work best at lower counts. The more poses an athlete has, the more room there is to push into action shots or complex setups.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 6 / Package details ──────────────────────────────── -->
+<section class="section section--pad">
+  <div class="wrap">
+    <span class="eye">02 / Packages — Details</span>
+    <h2 class="sec-head">The packages.</h2>
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <span class="pkg-card__name">1-choice</span>
+        <span class="pkg-card__sub">One individual photo per athlete</span>
+        <p class="pkg-card__body">This package works for teams that want coverage of every athlete without extra deliverables. Dependable poses tend to work best since there's no room for warm-up shots before landing the photo.</p>
+      </div>
+      <div class="pkg-card">
+        <span class="pkg-card__name">2-choice</span>
+        <span class="pkg-card__sub">Two individual photos per athlete</span>
+        <p class="pkg-card__body">With two photos per athlete, there's a little more room. The first can act as a warm-up while the second goes for something more interesting, or the two can offer distinct looks for use on different platforms.</p>
+      </div>
+      <div class="pkg-card">
+        <span class="pkg-card__name">3-choice</span>
+        <span class="pkg-card__sub">Three individual photos per athlete</span>
+        <p class="pkg-card__body">Three photos per athlete is where action shots and more complex poses become reasonable. The first photo or two usually act as the warm-up, and the athlete is comfortable in front of the camera by the third. At this count the scaling actually starts to build in room to try.</p>
+      </div>
+      <div class="pkg-card">
+        <span class="pkg-card__name">5-choice &amp; 8-choice</span>
+        <span class="pkg-card__sub">Five or eight individual photos per athlete</span>
+        <p class="pkg-card__body">Budget is the main difference. These sit between 3-choice and All-Access for teams that want more variety than 3-choice gives without committing to All-Access.</p>
+      </div>
+      <div class="pkg-card pkg-card--featured">
+        <span class="pkg-card__name">All-Access · Free-choice</span>
+        <span class="pkg-card__sub">Practically unlimited photos per athlete</span>
+        <p class="pkg-card__body">Each athlete gets practically unlimited photos within the shoot time. Within reason, athletes can do as many photos as they want.</p>
+        <p class="pkg-card__body">Most athletes land in the 10–20 range, counting both individual choices and groups together. That's where they tend to run out of ideas or feel done. That's the working number I plan around.</p>
+        <p class="pkg-card__body">Group photos are unlimited within the time slot. The team can do as many as the schedule allows.</p>
+      </div>
+      <div class="pkg-card">
+        <span class="pkg-card__name">Group photos</span>
+        <span class="pkg-card__sub">2–3 to 10–15 athletes per frame</span>
+        <p class="pkg-card__body">Group photos are small group shots. The size varies, anywhere from 2–3 to 10–15 athletes per frame, depending on the team and what they want to do.</p>
+        <p class="pkg-card__body">Any package can add group photos at additional per-athlete cost. Pricing for each combination is in the calculator.</p>
+        <p class="pkg-card__note">A full team photo comes with any package if you want one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 7 / Booking, prep, delivery ──────────────────────── -->
+<section class="section section--alt" id="logistics">
+  <div class="split split--photo-first">
+    <div class="split__photo" style="min-height: 500px;">
+      <img src="images/binghamton-university-womens-soccer-media-day-binghamton-ny-07089.jpg" alt="Soccer goalkeeper in a meditative pose seated on soccer balls" />
+    </div>
+    <div class="split__text">
+      <span class="eye">03 / Logistics — Booking · Prep · Delivery</span>
+      <h2 class="sec-head">Booking, prep, and delivery.</h2>
+      <div class="logistics-grid" style="grid-template-columns: 1fr; gap: 32px; margin-top: 24px;">
+        <div>
+          <span class="logistics-head">Booking</span>
+          <div class="logistics-body">
+            <p>For outdoor sports, the best window is golden hour — the hour before sunset through the hour after. Any weather in the forecast moves the shoot indoors instantly. I work with <strong>$20,000+ in sensitive, non-waterproof equipment</strong>, so even a chance of rain triggers the switch. The indoor backup is the field house or event center depending on team size.</p>
+            <p>For indoor sports, the shoot takes place in the team's own facility. Booking early makes it easier to lock in the right window.</p>
+          </div>
+        </div>
+        <div>
+          <span class="logistics-head">Prep</span>
+          <div class="logistics-body">
+            <p>Before the shoot day, every athlete needs to create a profile in the <strong>Athlete Portal</strong> and complete the pre-shoot form. <em>This is not optional.</em> Athletes who show up unprepared get worse photos. The form prepares each athlete — poses and props decided ahead of time, personalized to who they are.</p>
+            <p>On the day of the shoot, each athlete should arrive 15 minutes before their scheduled slot.</p>
+          </div>
+        </div>
+        <div>
+          <span class="logistics-head">Delivery</span>
+          <div class="logistics-body">
+            <p>Most galleries are ready within 1.5 months, often closer to two to three weeks. Each athlete gets a private link sent to the email they entered into their profile. The coach also gets the link and an access code to the full gallery.</p>
+          </div>
+        </div>
+      </div>
+      <div class="stat-row" style="margin-top: 32px;">
+        <div class="stat-item">
+          <span class="stat-num">1.5<span class="stat-unit">mo</span></span>
+          <span class="stat-label">Typical turnaround</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">2–3<span class="stat-unit">wk</span></span>
+          <span class="stat-label">Often faster</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">1</span>
+          <span class="stat-label">Email when gallery is live</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 8 / Why this pricing works ───────────────────────── -->
+<section class="section section--pad" id="pricing">
+  <div class="wrap">
+    <span class="eye">04 / Philosophy — Why this pricing works</span>
+    <div style="display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start;" id="pricing-grid">
+      <div>
+        <h2 class="sec-head">Why this pricing works.</h2>
+        <div class="sec-body" style="margin-top: 24px; max-width: 680px;">
+          <p>The pricing is built around the actual work each package takes. Different combinations of choices and groups require different amounts of shooting and editing time, so the per-athlete rate scales with the load.</p>
+          <p>The math does not scale evenly across packages. A 3-choice package isn't exactly three times the cost of a 1-choice package. I price based on the real work each package requires, not a flat per-photo formula. Some packages are easier to scale up than others, which means <span class="accent">the jumps between tiers don't all look proportional on paper</span>.</p>
+          <p>Group photos scale at a smaller rate than individual photos because each group photo covers multiple athletes in one shot. The editing cost per athlete drops for groups.</p>
+          <p>For teams with 45 or more athletes, the per-athlete rate drops on a sliding scale, reaching the bottom around 60 athletes. Larger teams get a volume discount because editing efficiency improves at scale.</p>
+          <p>For preseason shoots, there's a <strong>$100 travel fee</strong> added to the total.</p>
+        </div>
+        <div class="pull-quote">
+          <p>The rates sit on the <span class="accent">friendly end</span> of what this kind of work typically costs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 9 / Calculator ────────────────────────────────────── -->
+<section class="section" id="calculator" style="background: var(--bg); border-bottom: 1px solid var(--rule);">
+  <div class="wrap section--pad" style="padding-bottom: 32px;">
+    <span class="eye">05 / Pricing — Calculator</span>
+    <h2 class="sec-head" style="margin-bottom: 10px;">What it costs for your team.</h2>
+    <p style="color: var(--ink-mid); font-size: 17px; line-height: 1.6; max-width: 580px; margin: 0 0 32px;">
+      Enter team size, pick a photo tier, set the number of group photos. The calculator runs the same math as the quote.
+    </p>
+    <div class="callout-row">
+      <div class="callout-item">
+        <span class="callout-item__key">Base fee</span>
+        <span class="callout-item__val">$400 per shoot. Covers setup, teardown, equipment, transit.</span>
+      </div>
+      <div class="callout-item">
+        <span class="callout-item__key">Travel</span>
+        <span class="callout-item__val">+$100 flat for preseason shoots.</span>
+      </div>
+      <div class="callout-item">
+        <span class="callout-item__key">Per-athlete floor</span>
+        <span class="callout-item__val">$5 minimum per athlete, regardless of discount.</span>
+      </div>
+    </div>
+  </div>
+  <div class="calc-island">
+    <section class="calc" aria-label="Pricing calculator">
+      <section class="inputs" aria-label="Inputs">
+        <fieldset class="group">
+          <legend class="eyebrow">01 — TEAM</legend>
+          <div>
+            <span class="label">Team size</span>
+            <div class="stepper">
+              <button type="button" id="team-dec" aria-label="Decrease team size">−</button>
+              <input id="team-size" type="number" inputmode="numeric" min="6" value="20" aria-label="Team size" />
+              <button type="button" id="team-inc" aria-label="Increase team size">+</button>
+            </div>
+            <p class="error-text" id="team-error" hidden>Minimum team size is 6 athletes.</p>
+          </div>
+          <div>
+            <span class="label">Preseason shoot?</span>
+            <div class="toggle" role="group" aria-label="Preseason">
+              <button type="button" data-preseason="false" aria-pressed="true">No</button>
+              <button type="button" data-preseason="true"  aria-pressed="false">Yes</button>
+            </div>
+            <p class="helper">Adds $100 travel fee.</p>
+          </div>
+        </fieldset>
+        <fieldset class="group">
+          <legend class="eyebrow">02 — PACKAGE</legend>
+          <div class="tiers" id="tiers" role="radiogroup" aria-label="Photo tier"></div>
+        </fieldset>
+        <fieldset class="group" id="groups-fieldset">
+          <legend class="eyebrow">03 — GROUP PHOTOS</legend>
+          <div class="groups" id="groups"></div>
+          <p class="helper">Group photos are small groups of 2–3 to 10–15 athletes per frame.</p>
+        </fieldset>
+      </section>
+      <aside class="quote" aria-label="Quote">
+        <p class="eyebrow">Your quote</p>
+        <div id="quote-body"></div>
+        <button type="button" class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+      </aside>
+    </section>
+  </div>
+  <div class="wrap" style="padding-top: 20px; padding-bottom: 40px;">
+    <p style="color: var(--ink-faint); font-size: 14px; line-height: 1.55; max-width: 560px;">
+      For team sizes or combinations you want to talk through, email me directly. The calculator covers every standard combination — anything outside that range is a custom quote.
+    </p>
+  </div>
+</section>
+
+<!-- ── Section 10 / Shoot time estimates ─────────────────────────── -->
+<section class="section section--alt section--pad">
+  <div class="wrap">
+    <span class="eye">05 / Pricing — Shoot times</span>
+    <h2 class="sec-head">Shoot time estimates.</h2>
+    <p class="sec-body" style="margin-top: 16px; max-width: 600px;">
+      Shooting times only. Add ~60 minutes for setup and teardown on every shoot, and ~10 minutes per group photo. These are estimates — team prep, weather, location, and athlete behavior all affect the actual time.
+    </p>
+    <div class="time-table-wrap">
+      <table class="time-table">
+        <thead>
+          <tr><th>Shoot</th><th>Time</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1-choice, 10 athletes</td><td>~1.5 hr</td></tr>
+          <tr><td>1-choice, 30 athletes</td><td>~1.5 hr</td></tr>
+          <tr><td>1-choice, 60 athletes</td><td>~3–4.5 hr</td></tr>
+          <tr><td>1-choice, 90 athletes</td><td>~3–5.5 hr</td></tr>
+          <tr><td>2-choice, 10 athletes</td><td>~2 hr</td></tr>
+          <tr><td>2-choice, 30 athletes</td><td>~2.5–3 hr</td></tr>
+          <tr><td>3-choice, 10 athletes</td><td>~1.5–2 hr</td></tr>
+          <tr><td>3-choice, 40 athletes</td><td>~4 hr</td></tr>
+          <tr><td>Free-choice, 8 athletes</td><td>~3 hr</td></tr>
+          <tr><td>Free-choice, 10 athletes</td><td>~3–4 hr</td></tr>
+          <tr><td>Free-choice, 20 athletes</td><td>~4–5 hr</td></tr>
+          <tr><td>Free-choice, 30 athletes</td><td>~5–6 hr</td></tr>
+          <tr><td>Free-choice, 40 athletes</td><td>~6 hr</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Closer ────────────────────────────────────────────────────── -->
+<section class="closer">
+  <img src="images/binghamton-university-womens-lacrosse-media-day-binghamton-ny-00083.jpg" alt="Binghamton women's lacrosse team lineup with smoke and dramatic lighting" />
+  <div class="closer__overlay">
+    <div class="wrap" style="width: 100%;">
+      <h2 class="closer__title">Let's make something memorable.</h2>
+      <span class="closer__sub">Cole Warner · Photography</span>
+      <a href="mailto:alternate.creative.media@gmail.com?subject=Booking%20inquiry" class="btn-book">Learn more →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="lp-footer">
+  <span>A.C Media · Binghamton · 2026</span>
+  <a href="mailto:alternate.creative.media@gmail.com" style="text-decoration: none; color: inherit;">alternate.creative.media@gmail.com · 24-hr response</a>
+</footer>
 
 <div class="sticky-price" id="sticky-price" aria-live="polite">
   <span class="sp-label">Estimate</span>
@@ -640,32 +1169,16 @@ footer.foot {
 </div>
 
 <script>
-/* ──────────────────────────────────────────────────────────────────────
-   Photo shoot pricing logic
-   ──────────────────────────────────────────────────────────────────────
-   Edit the constants in CONFIG to change prices.
-   See README.md for guidance.
-   ────────────────────────────────────────────────────────────────────── */
-
 const CONFIG = {
-  BASE_FEE: 400,
-  TRAVEL_FEE: 100,
-  PER_ATHLETE_FLOOR: 5,
-  ALL_ACCESS_RATE: 110,
-  ALL_ACCESS_MAX_SIZE: 44,
-  MIN_TEAM_SIZE: 6,
-  GROUP_EXTRAPOLATION: 3,
-  CONTACT_EMAIL: "alternate.creative.media@gmail.com",
-
+  BASE_FEE: 400, TRAVEL_FEE: 100, PER_ATHLETE_FLOOR: 5,
+  ALL_ACCESS_RATE: 110, ALL_ACCESS_MAX_SIZE: 44, MIN_TEAM_SIZE: 6,
+  GROUP_EXTRAPOLATION: 3, CONTACT_EMAIL: "alternate.creative.media@gmail.com",
   RATE_MATRIX: {
-    "1-choice":  [7, 12, 16, 20],
-    "2-choice":  [15, 19, 22, 25],
-    "3-choice":  [25, 30, 33, 38],
-    "5-choice":  [45, 50, 53, 57],
+    "1-choice":  [7, 12, 16, 20], "2-choice":  [15, 19, 22, 25],
+    "3-choice":  [25, 30, 33, 38], "5-choice":  [45, 50, 53, 57],
     "8-choice":  [70, 75, 78, 82],
   },
 };
-
 const TIERS = [
   { id: "1-choice",   label: "1-choice",   desc: "One individual photo per athlete." },
   { id: "2-choice",   label: "2-choice",   desc: "Two individual photos per athlete." },
@@ -674,380 +1187,130 @@ const TIERS = [
   { id: "8-choice",   label: "8-choice",   desc: "Eight individual photos per athlete." },
   { id: "all-access", label: "All-Access", desc: "Practically unlimited photos per athlete plus unlimited groups." },
 ];
-
 const TIME_TABLE = {
   "1-choice":   { 10: "1.5 hr", 30: "1.5 hr", 60: "3-4.5 hr", 90: "3-5.5 hr" },
   "2-choice":   { 10: "2 hr", 30: "2.5-3 hr" },
   "3-choice":   { 10: "1.5-2 hr", 40: "4 hr" },
   "all-access": { 8: "3 hr", 10: "3-4 hr", 20: "4-5 hr", 30: "5-6 hr", 40: "6 hr" },
 };
-
 function teamDiscount(n) {
-  if (n <= 6) return 0;
-  if (n <= 60) return (0.30 * (n - 6)) / 54;
-  if (n <= 90) return 0.30 + (0.05 * (n - 60)) / 30;
-  return 0.35;
+  if (n <= 6) return 0; if (n <= 60) return (0.30 * (n-6))/54;
+  if (n <= 90) return 0.30 + (0.05*(n-60))/30; return 0.35;
 }
-
 function baseRate(tier, groups) {
-  const row = CONFIG.RATE_MATRIX[tier];
-  const g = Math.max(0, groups);
-  if (g <= 3) return row[g];
-  return row[3] + (g - 3) * CONFIG.GROUP_EXTRAPOLATION;
+  const row = CONFIG.RATE_MATRIX[tier]; const g = Math.max(0, groups);
+  return g <= 3 ? row[g] : row[3] + (g-3)*CONFIG.GROUP_EXTRAPOLATION;
 }
-
-function quote(input) {
+function calcQuote(input) {
   const { teamSize, tier, groups, preseason } = input;
-
-  if (teamSize < CONFIG.MIN_TEAM_SIZE) {
-    return { kind: "error", message: `Minimum team size is ${CONFIG.MIN_TEAM_SIZE} athletes.` };
-  }
-
+  if (teamSize < CONFIG.MIN_TEAM_SIZE) return { kind: "error", message: `Minimum team size is ${CONFIG.MIN_TEAM_SIZE} athletes.` };
   if (tier === "all-access") {
-    if (teamSize > CONFIG.ALL_ACCESS_MAX_SIZE) {
-      return {
-        kind: "custom-quote",
-        message: `For teams of 45 or more, All-Access is a custom quote. Email ${CONFIG.CONTACT_EMAIL} for pricing.`,
-      };
-    }
-    const athleteRate = CONFIG.ALL_ACCESS_RATE;
-    const athleteSubtotal = athleteRate * teamSize;
-    const travel = preseason ? CONFIG.TRAVEL_FEE : 0;
-    return {
-      kind: "ok",
-      total: CONFIG.BASE_FEE + athleteSubtotal + travel,
-      lines: {
-        baseFee: CONFIG.BASE_FEE,
-        athleteRate,
-        athleteSubtotal,
-        travel,
-        baseRateBeforeDiscount: athleteRate,
-        discountPct: 0,
-        flooredApplied: false,
-      },
-    };
+    if (teamSize > CONFIG.ALL_ACCESS_MAX_SIZE) return { kind: "custom-quote", message: `For teams of 45 or more, All-Access is a custom quote. Email ${CONFIG.CONTACT_EMAIL} for pricing.` };
+    const athleteRate = CONFIG.ALL_ACCESS_RATE, athleteSubtotal = athleteRate*teamSize, travel = preseason?CONFIG.TRAVEL_FEE:0;
+    return { kind:"ok", total: CONFIG.BASE_FEE+athleteSubtotal+travel, lines:{baseFee:CONFIG.BASE_FEE,athleteRate,athleteSubtotal,travel,baseRateBeforeDiscount:athleteRate,discountPct:0,flooredApplied:false} };
   }
-
-  const rawBase = baseRate(tier, groups);
-  const disc = teamDiscount(teamSize);
-  const discounted = rawBase * (1 - disc);
-  const flooredApplied = discounted < CONFIG.PER_ATHLETE_FLOOR;
-  const athleteRate = Math.max(CONFIG.PER_ATHLETE_FLOOR, discounted);
-  const athleteSubtotal = athleteRate * teamSize;
-  const travel = preseason ? CONFIG.TRAVEL_FEE : 0;
-
-  return {
-    kind: "ok",
-    total: CONFIG.BASE_FEE + athleteSubtotal + travel,
-    lines: {
-      baseFee: CONFIG.BASE_FEE,
-      athleteRate,
-      athleteSubtotal,
-      travel,
-      baseRateBeforeDiscount: rawBase,
-      discountPct: disc,
-      flooredApplied,
-    },
-  };
+  const rawBase=baseRate(tier,groups), disc=teamDiscount(teamSize), discounted=rawBase*(1-disc);
+  const flooredApplied=discounted<CONFIG.PER_ATHLETE_FLOOR, athleteRate=Math.max(CONFIG.PER_ATHLETE_FLOOR,discounted);
+  const athleteSubtotal=athleteRate*teamSize, travel=preseason?CONFIG.TRAVEL_FEE:0;
+  return { kind:"ok", total:CONFIG.BASE_FEE+athleteSubtotal+travel, lines:{baseFee:CONFIG.BASE_FEE,athleteRate,athleteSubtotal,travel,baseRateBeforeDiscount:rawBase,discountPct:disc,flooredApplied} };
 }
-
 function nudge(input) {
-  const { tier, groups } = input;
-  if (tier === "5-choice" && groups >= 5) {
-    return { message: "At this group count, All-Access usually gives you more for similar money. Want to switch?", suggestSwitch: true };
-  }
-  if (tier === "8-choice" && groups >= 3) {
-    return { message: "At this group count, All-Access usually gives you more for similar money. Want to switch?", suggestSwitch: true };
-  }
+  const {tier,groups}=input;
+  if (tier==="5-choice"&&groups>=5) return {message:"At this group count, All-Access usually gives you more for similar money. Want to switch?",suggestSwitch:true};
+  if (tier==="8-choice"&&groups>=3) return {message:"At this group count, All-Access usually gives you more for similar money. Want to switch?",suggestSwitch:true};
   return null;
 }
-
-function shootTimeEstimate(tier, teamSize) {
-  const row = TIME_TABLE[tier];
-  if (!row) return null;
-  const points = Object.keys(row).map(Number).sort((a, b) => a - b);
-  let nearest = points[0];
-  let best = Math.abs(teamSize - nearest);
-  for (const p of points) {
-    const d = Math.abs(teamSize - p);
-    if (d < best) { best = d; nearest = p; }
-  }
-  return "~" + row[nearest];
+function shootTimeEstimate(tier,teamSize) {
+  const row=TIME_TABLE[tier]; if (!row) return null;
+  const pts=Object.keys(row).map(Number).sort((a,b)=>a-b);
+  let near=pts[0],best=Math.abs(teamSize-near);
+  for (const p of pts){const d=Math.abs(teamSize-p);if(d<best){best=d;near=p;}}
+  return "~"+row[near];
 }
-
-/* ── Formatters ─────────────────────────────────────────────────── */
-
-const fmtUSD = (n) => new Intl.NumberFormat("en-US", {
-  style: "currency", currency: "USD",
-  maximumFractionDigits: n % 1 === 0 ? 0 : 2,
-}).format(n);
-
-const fmtRate = (n) => new Intl.NumberFormat("en-US", {
-  style: "currency", currency: "USD",
-  minimumFractionDigits: 2, maximumFractionDigits: 2,
-}).format(n);
-
-/* ── State ──────────────────────────────────────────────────────── */
-
-const state = {
-  teamSize: 20,
-  tier: "3-choice",
-  groups: 1,
-  preseason: false,
-};
-
-/* ── Render: tier cards ────────────────────────────────────────── */
-
-const tiersEl = document.getElementById("tiers");
-TIERS.forEach((t) => {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "tier";
-  btn.setAttribute("role", "radio");
-  btn.dataset.tier = t.id;
-  btn.innerHTML = `
-    <span class="dot" aria-hidden="true"></span>
-    <span>
-      <span class="name">${t.label}</span>
-      <span class="desc">${t.desc}</span>
-    </span>
-  `;
-  btn.addEventListener("click", () => {
-    state.tier = t.id;
-    render();
-  });
+const fmtUSD=(n)=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:n%1===0?0:2}).format(n);
+const fmtRate=(n)=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+const state={teamSize:20,tier:"3-choice",groups:1,preseason:false};
+const tiersEl=document.getElementById("tiers");
+TIERS.forEach(t=>{
+  const btn=document.createElement("button");
+  btn.type="button";btn.className="tier";btn.setAttribute("role","radio");btn.dataset.tier=t.id;
+  btn.innerHTML=`<span class="dot" aria-hidden="true"></span><span><span class="name">${t.label}</span><span class="desc">${t.desc}</span></span>`;
+  btn.addEventListener("click",()=>{state.tier=t.id;render();});
   tiersEl.appendChild(btn);
 });
-
-/* ── Render: group picker ──────────────────────────────────────── */
-
-const groupsEl = document.getElementById("groups");
-function renderGroupPicker() {
-  groupsEl.innerHTML = "";
-  [0, 1, 2, 3].forEach((n) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "chip";
-    b.textContent = String(n);
-    b.setAttribute("aria-pressed", String(state.groups === n));
-    b.addEventListener("click", () => { state.groups = n; render(); });
-    groupsEl.appendChild(b);
+const groupsEl=document.getElementById("groups");
+function renderGroupPicker(){
+  groupsEl.innerHTML="";
+  [0,1,2,3].forEach(n=>{
+    const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=String(n);
+    b.setAttribute("aria-pressed",String(state.groups===n));
+    b.addEventListener("click",()=>{state.groups=n;render();});groupsEl.appendChild(b);
   });
-  const plus = document.createElement("button");
-  plus.type = "button";
-  plus.className = "chip";
-  plus.textContent = "+";
-  plus.setAttribute("aria-label", "More groups");
-  plus.setAttribute("aria-pressed", String(state.groups > 3));
-  plus.addEventListener("click", () => {
-    state.groups = Math.max(state.groups + 1, 4);
-    render();
-  });
-  groupsEl.appendChild(plus);
-
-  if (state.groups > 3) {
-    const counter = document.createElement("span");
-    counter.className = "groups-count";
-    counter.textContent = state.groups + " GROUPS";
-    groupsEl.appendChild(counter);
-  }
+  const plus=document.createElement("button");plus.type="button";plus.className="chip";plus.textContent="+";
+  plus.setAttribute("aria-label","More groups");plus.setAttribute("aria-pressed",String(state.groups>3));
+  plus.addEventListener("click",()=>{state.groups=Math.max(state.groups+1,4);render();});groupsEl.appendChild(plus);
+  if(state.groups>3){const c=document.createElement("span");c.className="groups-count";c.textContent=state.groups+" GROUPS";groupsEl.appendChild(c);}
 }
-
-/* ── Render: team-size stepper ─────────────────────────────────── */
-
-const teamInput = document.getElementById("team-size");
-const teamError = document.getElementById("team-error");
-document.getElementById("team-dec").addEventListener("click", () => {
-  state.teamSize = Math.max(CONFIG.MIN_TEAM_SIZE, state.teamSize - 1);
-  render();
-});
-document.getElementById("team-inc").addEventListener("click", () => {
-  state.teamSize = state.teamSize + 1;
-  render();
-});
-teamInput.addEventListener("input", (e) => {
-  const v = parseInt(e.target.value, 10);
-  state.teamSize = Number.isFinite(v) ? v : CONFIG.MIN_TEAM_SIZE;
-  render();
-});
-
-/* ── Render: preseason toggle ──────────────────────────────────── */
-
-document.querySelectorAll("[data-preseason]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    state.preseason = btn.dataset.preseason === "true";
-    render();
-  });
-});
-
-/* ── Render: quote panel ───────────────────────────────────────── */
-
-const quoteBody = document.getElementById("quote-body");
-const groupsFieldset = document.getElementById("groups-fieldset");
-
-function render() {
-  // sync team size input
-  if (document.activeElement !== teamInput) {
-    teamInput.value = state.teamSize;
-  }
-  teamError.hidden = state.teamSize >= CONFIG.MIN_TEAM_SIZE;
-
-  // sync tier cards
-  document.querySelectorAll(".tier").forEach((el) => {
-    el.setAttribute("aria-checked", String(el.dataset.tier === state.tier));
-  });
-
-  // sync preseason toggle
-  document.querySelectorAll("[data-preseason]").forEach((btn) => {
-    btn.setAttribute("aria-pressed", String((btn.dataset.preseason === "true") === state.preseason));
-  });
-
-  // hide groups for all-access
-  const isAA = state.tier === "all-access";
-  groupsFieldset.style.display = isAA ? "none" : "";
-
+const teamInput=document.getElementById("team-size"),teamError=document.getElementById("team-error");
+const quoteBody=document.getElementById("quote-body"),groupsFieldset=document.getElementById("groups-fieldset");
+const spTotal=document.getElementById("sp-total");
+document.getElementById("team-dec").addEventListener("click",()=>{state.teamSize=Math.max(CONFIG.MIN_TEAM_SIZE,state.teamSize-1);render();});
+document.getElementById("team-inc").addEventListener("click",()=>{state.teamSize=state.teamSize+1;render();});
+teamInput.addEventListener("input",e=>{const v=parseInt(e.target.value,10);state.teamSize=Number.isFinite(v)?v:CONFIG.MIN_TEAM_SIZE;render();});
+document.querySelectorAll("[data-preseason]").forEach(btn=>btn.addEventListener("click",()=>{state.preseason=btn.dataset.preseason==="true";render();}));
+function updateStickyBar(r){
+  if(!spTotal)return;
+  if(r.kind==="ok")spTotal.textContent=fmtUSD(r.total);
+  else if(r.kind==="custom-quote")spTotal.textContent="Custom";
+  else spTotal.textContent="—";
+}
+function render(){
+  if(document.activeElement!==teamInput)teamInput.value=state.teamSize;
+  teamError.hidden=state.teamSize>=CONFIG.MIN_TEAM_SIZE;
+  document.querySelectorAll(".tier").forEach(el=>el.setAttribute("aria-checked",String(el.dataset.tier===state.tier)));
+  document.querySelectorAll("[data-preseason]").forEach(btn=>btn.setAttribute("aria-pressed",String((btn.dataset.preseason==="true")===state.preseason)));
+  const isAA=state.tier==="all-access";
+  groupsFieldset.style.display=isAA?"none":"";
   renderGroupPicker();
-
-  const input = {
-    teamSize: state.teamSize,
-    tier: state.tier,
-    groups: isAA ? 0 : state.groups,
-    preseason: state.preseason,
+  const input={teamSize:state.teamSize,tier:state.tier,groups:isAA?0:state.groups,preseason:state.preseason};
+  const r=calcQuote(input),n=nudge(input),time=shootTimeEstimate(state.tier,state.teamSize);
+  updateStickyBar(r);quoteBody.innerHTML="";
+  if(r.kind==="error"){const p=document.createElement("p");p.className="custom-head";p.style.color="var(--ink-mid)";p.textContent=r.message;quoteBody.appendChild(p);return;}
+  if(r.kind==="custom-quote"){
+    const head=document.createElement("p");head.className="custom-head";head.textContent="Custom quote";
+    const body=document.createElement("p");body.className="custom-body";body.textContent=r.message;
+    const link=document.createElement("a");link.className="btn-primary";
+    link.href="mailto:"+CONFIG.CONTACT_EMAIL+"?subject=All-Access%20pricing%20for%20a%20team%20of%2045%2B";
+    link.textContent="Email "+CONFIG.CONTACT_EMAIL+" →";
+    quoteBody.appendChild(head);quoteBody.appendChild(body);quoteBody.appendChild(link);return;
+  }
+  const totalEl=document.createElement("p");totalEl.className="total";totalEl.textContent=fmtUSD(r.total);quoteBody.appendChild(totalEl);
+  const dl=document.createElement("dl");dl.className="breakdown";
+  const addRow=(label,value,sub)=>{
+    const dt=document.createElement("dt");dt.textContent=label;
+    if(sub){const s=document.createElement("span");s.className="sub";s.textContent=sub;dt.appendChild(s);}
+    const dd=document.createElement("dd");dd.textContent=value;dl.appendChild(dt);dl.appendChild(dd);
   };
-  const r = quote(input);
-  const n = nudge(input);
-  const time = shootTimeEstimate(state.tier, state.teamSize);
-
-  updateStickyBar(r);
-  quoteBody.innerHTML = "";
-
-  if (r.kind === "error") {
-    const p = document.createElement("p");
-    p.className = "custom-head";
-    p.style.color = "rgba(255,255,255,0.65)";
-    p.textContent = r.message;
-    quoteBody.appendChild(p);
-    return;
-  }
-
-  if (r.kind === "custom-quote") {
-    const head = document.createElement("p");
-    head.className = "custom-head";
-    head.textContent = "Custom quote";
-    const body = document.createElement("p");
-    body.className = "custom-body";
-    body.textContent = r.message;
-    const link = document.createElement("a");
-    link.className = "btn-primary";
-    link.href = "mailto:" + CONFIG.CONTACT_EMAIL + "?subject=All-Access%20pricing%20for%20a%20team%20of%2045%2B";
-    link.textContent = "Email " + CONFIG.CONTACT_EMAIL + " →";
-    quoteBody.appendChild(head);
-    quoteBody.appendChild(body);
-    quoteBody.appendChild(link);
-    return;
-  }
-
-  // ok
-  const totalEl = document.createElement("p");
-  totalEl.className = "total";
-  totalEl.textContent = fmtUSD(r.total);
-  quoteBody.appendChild(totalEl);
-
-  const dl = document.createElement("dl");
-  dl.className = "breakdown";
-  const addRow = (label, value, sub, isTotal) => {
-    const dt = document.createElement("dt");
-    dt.textContent = label;
-    if (sub) {
-      const s = document.createElement("span");
-      s.className = "sub";
-      s.textContent = sub;
-      dt.appendChild(s);
-    }
-    const dd = document.createElement("dd");
-    dd.textContent = value;
-    if (isTotal) {
-      dt.parentElement?.classList?.add("total-row");
-      dt.classList.add("_t");
-      dd.classList.add("_t");
-    }
-    dl.appendChild(dt);
-    dl.appendChild(dd);
-    if (isTotal) {
-      dt.parentElement?.classList?.add("total-row");
-    }
-  };
-
-  addRow("Base shoot fee", fmtUSD(r.lines.baseFee));
-  const perLabel = isAA
-    ? `All-Access rate × ${state.teamSize}`
-    : `Per-athlete × ${state.teamSize}${r.lines.flooredApplied ? " (floor)" : ""}`;
-  const perSub = isAA
-    ? fmtRate(r.lines.athleteRate) + " each"
-    : fmtRate(r.lines.athleteRate) + " each · " + Math.round(r.lines.discountPct * 100) + "% off " + fmtRate(r.lines.baseRateBeforeDiscount);
-  addRow(perLabel, fmtUSD(r.lines.athleteSubtotal), perSub);
-  if (r.lines.travel > 0) {
-    addRow("Travel fee (preseason)", fmtUSD(r.lines.travel));
-  }
-  // total row — wrap in a contents row by using a class on dt/dd
-  const totalDt = document.createElement("dt");
-  totalDt.style.paddingTop = "14px";
-  totalDt.style.borderTop = "1px solid rgba(255,255,255,0.14)";
-  totalDt.style.color = "#fff";
-  totalDt.textContent = "Total";
-  const totalDd = document.createElement("dd");
-  totalDd.style.paddingTop = "14px";
-  totalDd.style.borderTop = "1px solid rgba(255,255,255,0.14)";
-  totalDd.style.fontWeight = "700";
-  totalDd.style.fontSize = "22px";
-  totalDd.textContent = fmtUSD(r.total);
-  dl.appendChild(totalDt);
-  dl.appendChild(totalDd);
-  quoteBody.appendChild(dl);
-
-  const timeWrap = document.createElement("div");
-  const tm = document.createElement("p");
-  tm.className = "meta-line";
-  tm.textContent = "ESTIMATED SHOOT TIME · " + (time ?? "CONFIRMED AT BOOKING");
-  const tn = document.createElement("p");
-  tn.className = "small-note";
-  tn.textContent = "Add ~60 minutes for setup and teardown, and ~10 minutes per group photo.";
-  timeWrap.appendChild(tm);
-  timeWrap.appendChild(tn);
-  quoteBody.appendChild(timeWrap);
-
-  if (n) {
-    const box = document.createElement("div");
-    box.className = "nudge";
-    box.setAttribute("role", "status");
-    const msg = document.createElement("p");
-    msg.textContent = n.message;
-    box.appendChild(msg);
-    if (n.suggestSwitch) {
-      const sw = document.createElement("button");
-      sw.type = "button";
-      sw.textContent = "Switch to All-Access →";
-      sw.addEventListener("click", () => { state.tier = "all-access"; render(); });
-      box.appendChild(sw);
-    }
+  addRow("Base shoot fee",fmtUSD(r.lines.baseFee));
+  const perLabel=isAA?`All-Access rate × ${state.teamSize}`:`Per-athlete × ${state.teamSize}${r.lines.flooredApplied?" (floor)":""}`;
+  const perSub=isAA?fmtRate(r.lines.athleteRate)+" each":fmtRate(r.lines.athleteRate)+" each · "+Math.round(r.lines.discountPct*100)+"% off "+fmtRate(r.lines.baseRateBeforeDiscount);
+  addRow(perLabel,fmtUSD(r.lines.athleteSubtotal),perSub);
+  if(r.lines.travel>0)addRow("Travel fee (preseason)",fmtUSD(r.lines.travel));
+  const tDt=document.createElement("dt");tDt.style.cssText="padding-top:14px;border-top:1px solid var(--rule);color:var(--ink);";tDt.textContent="Total";
+  const tDd=document.createElement("dd");tDd.style.cssText="padding-top:14px;border-top:1px solid var(--rule);font-weight:700;font-size:22px;";tDd.textContent=fmtUSD(r.total);
+  dl.appendChild(tDt);dl.appendChild(tDd);quoteBody.appendChild(dl);
+  const tw=document.createElement("div");
+  const tm=document.createElement("p");tm.className="meta-line";tm.textContent="ESTIMATED SHOOT TIME · "+(time??"CONFIRMED AT BOOKING");
+  const tn=document.createElement("p");tn.className="small-note";tn.textContent="Add ~60 minutes for setup and teardown, and ~10 minutes per group photo.";
+  tw.appendChild(tm);tw.appendChild(tn);quoteBody.appendChild(tw);
+  if(n){
+    const box=document.createElement("div");box.className="nudge";box.setAttribute("role","status");
+    const msg=document.createElement("p");msg.textContent=n.message;box.appendChild(msg);
+    if(n.suggestSwitch){const sw=document.createElement("button");sw.type="button";sw.textContent="Switch to All-Access →";sw.addEventListener("click",()=>{state.tier="all-access";render();});box.appendChild(sw);}
     quoteBody.appendChild(box);
   }
-
-  const incl = document.createElement("p");
-  incl.className = "small-note";
-  incl.style.color = "rgba(255,255,255,0.55)";
-  incl.textContent = "A full team photo is included if you want one.";
-  quoteBody.appendChild(incl);
+  const incl=document.createElement("p");incl.className="small-note";incl.style.color="var(--ink-mid)";incl.textContent="A full team photo is included if you want one.";quoteBody.appendChild(incl);
 }
-
-const spTotal = document.getElementById("sp-total");
-function updateStickyBar(r) {
-  if (!spTotal) return;
-  if (r.kind === "ok") spTotal.textContent = fmtUSD(r.total);
-  else if (r.kind === "custom-quote") spTotal.textContent = "Custom";
-  else spTotal.textContent = "—";
-}
-
 render();
 </script>
 </body>
