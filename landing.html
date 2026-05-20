@@ -4,8 +4,8 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, follow" />
-<title>Sports Photography · Pricing &amp; Shoot Guide · A.C Media</title>
-<meta name="description" content="Photo shoot pricing for college athletic departments at Binghamton. Packages, group photos, booking, and a live calculator." />
+<title>Smoke Photo Media Days · Pricing &amp; Shoot Guide · A.C Media</title>
+<meta name="description" content="Smoke photo media days for college athletic departments at Binghamton. Packages, group photos, booking, and a live calculator." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -570,7 +570,7 @@ a.hero__meta-val:hover { text-decoration: underline; }
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   CALCULATOR ISLAND — scoped so nothing leaks into page styles
+   CALCULATOR ISLAND. Scoped so nothing leaks into page styles.
    ══════════════════════════════════════════════════════════════════ */
 .calc-island {
   --ac-accent:  #7EB6C0;
@@ -717,6 +717,376 @@ a.hero__meta-val:hover { text-decoration: underline; }
   .sp-total { font-family: var(--sans); font-weight: 800; font-size: 26px; letter-spacing: -0.025em; color: #fff; }
   .lp-footer { padding-bottom: calc(24px + 60px); }
 }
+
+/* ── Trio photos (choices / groups / team) ─────────────────────── */
+.trio {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+@media (max-width: 800px) {
+  .trio { grid-template-columns: 1fr; }
+}
+.trio__item {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+}
+.trio__photo {
+  position: relative;
+  height: clamp(280px, 34vw, 460px);
+  overflow: hidden;
+}
+.trio__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+@media (max-width: 800px) {
+  .trio__photo { height: 280px; }
+}
+.trio__label {
+  padding: 20px 22px;
+  border-top: 1px solid var(--rule);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+}
+.trio__label .key {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.trio__label .val {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* ── Simple package tiles (names only) ─────────────────────────── */
+.pkg-grid--simple {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-top: 28px;
+}
+@media (min-width: 680px) { .pkg-grid--simple { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1040px) { .pkg-grid--simple { grid-template-columns: repeat(5, 1fr); } }
+.pkg-tile {
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+.pkg-tile__name {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+}
+.pkg-tile__count {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--teal);
+  line-height: 1.3;
+}
+
+/* Featured + group cards in a separate row */
+.pkg-feature-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+@media (min-width: 760px) { .pkg-feature-row { grid-template-columns: 1fr 1fr; } }
+.pkg-card__bullets {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.pkg-card__bullets li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  padding-left: 18px;
+  position: relative;
+}
+.pkg-card__bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: var(--teal);
+  border-radius: 50%;
+}
+.pkg-card__bullets li em {
+  font-style: italic;
+  color: var(--ink);
+}
+
+.pkg-callout {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: var(--teal-bg);
+  border-left: 3px solid var(--teal);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ── Inline info chip ──────────────────────────────────────────── */
+.info-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin: 0 2px 0 4px;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  color: var(--teal);
+  background: transparent;
+  border: 1px solid var(--teal);
+  border-radius: 50%;
+  cursor: help;
+  vertical-align: middle;
+  position: relative;
+  transition: background 0.15s, color 0.15s;
+}
+.info-chip:hover,
+.info-chip:focus-visible,
+.info-chip[aria-expanded="true"] {
+  background: var(--teal);
+  color: #000;
+}
+.info-chip__pop {
+  position: absolute;
+  z-index: 50;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  padding: 10px 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--teal);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+  font-style: normal;
+  font-weight: 400;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s, visibility 0.12s;
+}
+.info-chip:hover + .info-chip__pop,
+.info-chip:focus-visible + .info-chip__pop,
+.info-chip[aria-expanded="true"] + .info-chip__pop {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.info-chip-wrap {
+  display: inline;
+  position: relative;
+}
+
+/* ── Disclosure: shoot-times expander ──────────────────────────── */
+.disclosure {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.disclosure__details {
+  background: var(--bg-1);
+}
+.disclosure__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 28px var(--px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.disclosure__summary::-webkit-details-marker { display: none; }
+.disclosure__summary-title {
+  font-family: var(--sans);
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.disclosure__summary-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  white-space: nowrap;
+}
+.disclosure__summary-hint::after {
+  content: " +";
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.2s;
+}
+.disclosure__details[open] .disclosure__summary-hint::after {
+  content: " \2013";
+}
+.disclosure__body {
+  padding: 0 var(--px) 36px;
+  border-top: 1px solid var(--rule);
+}
+.disclosure__intro {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-mid);
+  max-width: 620px;
+  padding-top: 24px;
+}
+
+/* ── FAQ accordion ─────────────────────────────────────────────── */
+.faq-list {
+  display: grid;
+  gap: 0;
+  margin-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.faq-item {
+  border-bottom: 1px solid var(--rule);
+}
+.faq-item[open] {
+  background: var(--teal-bg);
+  border-left: 3px solid var(--teal);
+}
+.faq-item__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 22px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+}
+.faq-item__summary::-webkit-details-marker { display: none; }
+.faq-item__summary::after {
+  content: "+";
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--teal);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.faq-item[open] .faq-item__summary::after {
+  content: "\2013";
+}
+.faq-item__body {
+  padding: 0 24px 24px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-mid);
+}
+.faq-item__body p + p { margin-top: 12px; }
+.faq-item__body strong { color: var(--ink); font-weight: 600; }
+.faq-item__body em { font-style: italic; }
+.faq-item__body code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--teal);
+}
+.faq-item__body .time-table-wrap { margin-top: 0; }
+
+/* ── Calculator: equal-weight group tiles ──────────────────────── */
+.calc-island .groups--tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+@media (max-width: 540px) {
+  .calc-island .groups--tiles { grid-template-columns: repeat(3, 1fr); }
+}
+.calc-island .group-tile {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #fff;
+  cursor: pointer;
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.calc-island .group-tile:hover { border-color: rgba(126,182,192,0.5); }
+.calc-island .group-tile[aria-pressed="true"] {
+  background: rgba(126,182,192,0.10);
+  border-color: var(--ac-accent);
+}
+.calc-island .group-tile__count {
+  font-family: var(--ac-mono);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+.calc-island .group-tile[aria-pressed="true"] .group-tile__count {
+  color: var(--ac-accent);
+}
+.calc-island .group-tile__sub {
+  font-family: var(--ac-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+.calc-island .groups--tiles .groups-count {
+  grid-column: 1 / -1;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
 </style>
 </head>
 <body>
@@ -731,8 +1101,8 @@ a.hero__meta-val:hover { text-decoration: underline; }
       <li><a href="#the-shoot">The Shoot</a></li>
       <li><a href="#packages">Packages</a></li>
       <li><a href="#logistics">Logistics</a></li>
-      <li><a href="#pricing">Pricing</a></li>
       <li><a href="#calculator">Calculator</a></li>
+      <li><a href="#faq">FAQ</a></li>
     </ul>
   </nav>
   <a href="mailto:alternate.creative.media@gmail.com?subject=Booking%20inquiry" class="nav-cta">Learn more</a>
@@ -742,13 +1112,9 @@ a.hero__meta-val:hover { text-decoration: underline; }
 <section class="hero">
   <div class="hero__text">
     <div>
-      <span class="eye">Sports photography · 2026 · Binghamton</span>
+      <span class="eye">Smoke photo media days · Binghamton</span>
       <h1 class="hero__title">Pricing and<br>shoot guide.</h1>
       <div class="hero__meta">
-        <div class="hero__meta-item">
-          <span class="hero__meta-key">Audience</span>
-          <span class="hero__meta-val">College athletic departments</span>
-        </div>
         <div class="hero__meta-item">
           <span class="hero__meta-key">Calculator</span>
           <a href="#calculator" class="hero__meta-val">Jump to pricing →</a>
@@ -759,20 +1125,17 @@ a.hero__meta-val:hover { text-decoration: underline; }
   </div>
   <div class="hero__photos">
     <img src="images/binghamton-university-baseball-media-day-binghamton-ny-amedia.jpg" alt="Binghamton baseball players with smoke and dramatic lighting" class="hero__photo-img" />
-    <img src="images/binghamton-university-mens-lacrosse-media-day-binghamton-ny-02235.jpg" alt="Binghamton lacrosse players jumping mid-air" class="hero__photo-img" />
+    <img src="images/binghamton-university-track-and-field-media-day-binghamton-ny-09934.jpg" alt="Binghamton track athlete in mid-sprint celebration with smoke" class="hero__photo-img" />
   </div>
 </section>
 
-<!-- ── Section 2 / What this shoot is ──────────────────────────── -->
+<!-- ── What this shoot is ──────────────────────────────────────── -->
 <section class="section section--alt" id="the-shoot">
   <div class="split">
     <div class="split__text">
-      <span class="eye">01 / The Shoot — What this shoot is</span>
       <h2 class="sec-head">What this shoot is.</h2>
       <div class="sec-body">
-        <p>Most college sports photoshoots end up producing what get called smile photos. Clean shots against a simple backdrop, athlete posed straight on, arms folded, smiling for the camera. They serve their purpose, but they tend to blend together and rarely stand out.</p>
-        <p>The shoots I run use dramatic lighting, deliberate composition, and props chosen specifically for the athletes being photographed. Each photo should feel like the actual person in the frame.</p>
-        <p>The process starts before the shoot day. Athletes complete their profile and the pre-shoot form so they arrive prepared, with their poses and prop ideas already decided. On the day, each athlete works through their choices and their groups in their scheduled slot.</p>
+        <p>A media day shoot where each athlete picks the pose and props they want, basically doing whatever feels right, with dramatic lighting and a setup built around them. The right shot has no ceiling. It can land on video boards, in media guides, across social, and in national coverage.</p>
       </div>
     </div>
     <div class="split__photo">
@@ -781,201 +1144,154 @@ a.hero__meta-val:hover { text-decoration: underline; }
   </div>
 </section>
 
-<!-- ── Section 3 / What you get ─────────────────────────────────── -->
-<section class="section">
-  <div class="section--pad wrap">
-    <span class="eye">01 / The Shoot — What you get</span>
+<!-- ── What you get ─────────────────────────────────────────────── -->
+<section class="section" id="what-you-get">
+  <div class="section--pad wrap" style="padding-bottom: 28px;">
     <h2 class="sec-head">What you get.</h2>
     <div class="sec-body">
-      <p>Edited photos, delivered as a gallery each athlete accesses through their email. Galleries are typically ready within 1.5 months, often closer to two or three weeks. You'll get an email when yours is live.</p>
-      <p>Two kinds of photos come out of every shoot.</p>
+      <p>Edited photos, delivered as a gallery for everyone on the team. Three kinds of photos come out of every shoot.</p>
     </div>
   </div>
-  <div class="duo">
-    <div class="duo__item">
-      <img src="images/binghamton-university-mens-soccer-media-day-binghamton-ny-07452.jpg" alt="Binghamton soccer player kicking ball with smoke and stadium lights" />
-      <span class="duo__label">Choices — individual photos</span>
-    </div>
-    <div class="duo__item">
-      <img src="images/binghamton-university-womens-lacrosse-media-day-binghamton-ny-00083.jpg" alt="Binghamton women's lacrosse team group photo with smoke" />
-      <span class="duo__label">Groups — 2–3 to 10–15 athletes per frame</span>
-    </div>
-  </div>
-  <div class="section--pad wrap" style="padding-top: 40px; padding-bottom: 40px;">
-    <div class="sec-body" style="max-width: 720px;">
-      <span class="subhead">Choices — <em>individual photos</em></span>
-      <p>One athlete per frame. These end up on team and athletic accounts, on athletes' personal pages, in marketing materials, and on the video boards during games. Anywhere athletics, the team, or the athlete needs an image of that player, it comes from here.</p>
-      <span class="subhead">Groups — <em>small group photos</em></span>
-      <p>Anywhere from 2–3 to 10–15 athletes per frame. They have a different job. They're more memorable, and they have more fun in them because athletes are with their friends doing more interesting things. Any coach reading this already knows: athletes get funny in groups. These show up before tournaments, after wins, and anytime a player or team gets featured.</p>
-      <p style="margin-top: 20px;"><span class="accent">A full team photo comes with any package if you want one.</span></p>
-    </div>
-  </div>
-</section>
-
-<!-- ── Section 4 / Department asset ─────────────────────────────── -->
-<section class="section section--alt">
-  <div class="split split--photo-first">
-    <div class="split__photo">
-      <img src="images/binghamton-university-track-and-field-media-day-binghamton-ny-09934.jpg" alt="Binghamton track athlete in mid-sprint celebration with smoke" />
-    </div>
-    <div class="split__text">
-      <span class="eye">01 / The Shoot — Department asset</span>
-      <h2 class="sec-head">National reach.</h2>
-      <div class="sec-body">
-        <p>The right photo can reach a national audience. Most won't. But there's <span class="accent">almost no ceiling</span> for the ones that get attention — and this program has produced them.</p>
-        <p>The same images appear on video boards, in media guides, across social, and in national coverage when it comes. They don't expire after the season.</p>
+  <div class="trio">
+    <div class="trio__item">
+      <div class="trio__photo">
+        <img src="images/binghamton-university-mens-soccer-media-day-binghamton-ny-07452.jpg" alt="Binghamton soccer player kicking ball with smoke and stadium lights" />
       </div>
-      <div class="pull-quote">
-        <p>One shoot. <span class="accent">No ceiling on what comes after.</span></p>
+      <div class="trio__label">
+        <span class="key">Choices</span>
+        <span class="val">Individual photos.</span>
+      </div>
+    </div>
+    <div class="trio__item">
+      <div class="trio__photo">
+        <img src="images/binghamton-university-mens-lacrosse-team-media-day-binghamton-ny-group.jpg" alt="Binghamton men's lacrosse team in a row with raised hands and smoke" style="object-position: center 55%;" />
+      </div>
+      <div class="trio__label">
+        <span class="key">Groups</span>
+        <span class="val">2&ndash;15+ athletes per frame.</span>
+      </div>
+    </div>
+    <div class="trio__item">
+      <div class="trio__photo">
+        <img src="images/binghamton-university-womens-lacrosse-media-day-binghamton-ny-00083.jpg" alt="Binghamton women's lacrosse team group photo with smoke" />
+      </div>
+      <div class="trio__label">
+        <span class="key">Team</span>
+        <span class="val">One full team photo, included with every package.</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Photo showcase ─────────────────────────────────────────────── -->
-<div class="showcase">
-  <div class="showcase__item">
-    <img src="images/binghamton-university-softball-media-day-binghamton-ny-00980.jpg" alt="Binghamton softball player running with glove" />
-  </div>
-  <div class="showcase__item">
-    <img src="images/binghamton-university-volleyball-media-day-binghamton-ny-07737.jpg" alt="Binghamton volleyball player doing full splits while holding ball" />
-  </div>
-  <div class="showcase__item">
-    <img src="images/binghamton-university-womens-soccer-media-day-binghamton-ny-07089.jpg" alt="Binghamton soccer goalkeeper meditating on soccer balls" />
-  </div>
-</div>
-
-<!-- ── Section 5 / What each package means ──────────────────────── -->
+<!-- ── Packages ─────────────────────────────────────────────────── -->
 <section class="section section--alt section--pad" id="packages">
   <div class="wrap">
-    <span class="eye">02 / Packages — What each one means</span>
-    <h2 class="sec-head">What each package means for a coach.</h2>
-    <div class="sec-body" style="margin-top: 24px; max-width: 700px;">
-      <p>The packages scale by how many individual photos each athlete gets. Group photos can be added to any package at additional per-athlete cost. All pricing combinations are in the calculator below.</p>
-      <p>One thing to know before reading the packages: every athlete needs a warm-up. Photoshoots have warm-up time just like sports do. It usually takes a few photos before an athlete loosens up and looks comfortable on camera. The prep work each athlete does ahead of the shoot helps, but it doesn't fully replace getting in front of the lens. That's why dependable poses work best at lower counts. The more poses an athlete has, the more room there is to push into action shots or complex setups.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ── Section 6 / Package details ──────────────────────────────── -->
-<section class="section section--pad">
-  <div class="wrap">
-    <span class="eye">02 / Packages — Details</span>
     <h2 class="sec-head">The packages.</h2>
-    <div class="pkg-grid">
-      <div class="pkg-card">
-        <span class="pkg-card__name">1-choice</span>
-        <span class="pkg-card__sub">One individual photo per athlete</span>
-        <p class="pkg-card__body">This package works for teams that want coverage of every athlete without extra deliverables. Dependable poses tend to work best since there's no room for warm-up shots before landing the photo.</p>
+    <div class="sec-body" style="margin-top: 20px; max-width: 720px;">
+      <p>7 package options. 6 are based on individual photos, and you can mix any of those with as many group photos as you want. My recommendation: 3-choice plus 2 groups, All-Access, or 2-choice. The calculator below figures out what fits your team and budget.</p>
+    </div>
+
+    <div class="pkg-grid--simple">
+      <div class="pkg-tile">
+        <span class="pkg-tile__name">1-Choice</span>
+        <span class="pkg-tile__count">1 individual photo</span>
       </div>
-      <div class="pkg-card">
-        <span class="pkg-card__name">2-choice</span>
-        <span class="pkg-card__sub">Two individual photos per athlete</span>
-        <p class="pkg-card__body">With two photos per athlete, there's a little more room. The first can act as a warm-up while the second goes for something more interesting, or the two can offer distinct looks for use on different platforms.</p>
+      <div class="pkg-tile">
+        <span class="pkg-tile__name">2-Choice</span>
+        <span class="pkg-tile__count">2 individual photos</span>
       </div>
-      <div class="pkg-card">
-        <span class="pkg-card__name">3-choice</span>
-        <span class="pkg-card__sub">Three individual photos per athlete</span>
-        <p class="pkg-card__body">Three photos per athlete is where action shots and more complex poses become reasonable. The first photo or two usually act as the warm-up, and the athlete is comfortable in front of the camera by the third. At this count the scaling actually starts to build in room to try.</p>
+      <div class="pkg-tile">
+        <span class="pkg-tile__name">3-Choice</span>
+        <span class="pkg-tile__count">3 individual photos</span>
       </div>
-      <div class="pkg-card">
-        <span class="pkg-card__name">5-choice &amp; 8-choice</span>
-        <span class="pkg-card__sub">Five or eight individual photos per athlete</span>
-        <p class="pkg-card__body">Budget is the main difference. These sit between 3-choice and All-Access for teams that want more variety than 3-choice gives without committing to All-Access.</p>
+      <div class="pkg-tile">
+        <span class="pkg-tile__name">5-Choice</span>
+        <span class="pkg-tile__count">5 individual photos</span>
       </div>
+      <div class="pkg-tile">
+        <span class="pkg-tile__name">8-Choice</span>
+        <span class="pkg-tile__count">8 individual photos</span>
+      </div>
+    </div>
+
+    <div class="pkg-feature-row">
       <div class="pkg-card pkg-card--featured">
-        <span class="pkg-card__name">All-Access · Free-choice</span>
-        <span class="pkg-card__sub">Practically unlimited photos per athlete</span>
-        <p class="pkg-card__body">Each athlete gets practically unlimited photos within the shoot time. Within reason, athletes can do as many photos as they want.</p>
-        <p class="pkg-card__body">Most athletes land in the 10–20 range, counting both individual choices and groups together. That's where they tend to run out of ideas or feel done. That's the working number I plan around.</p>
-        <p class="pkg-card__body">Group photos are unlimited within the time slot. The team can do as many as the schedule allows.</p>
+        <span class="pkg-card__name">All-Access<span class="info-chip-wrap"><button type="button" class="info-chip" aria-expanded="false" aria-label="More about All-Access">i</button><span class="info-chip__pop" role="tooltip">Most athletes land around 10&ndash;20 photos within their slot, counting individuals and groups together. That's the working number to plan around.</span></span></span>
+        <ul class="pkg-card__bullets">
+          <li><em>As many individual and group photos as the athlete wants within their slot.</em></li>
+        </ul>
       </div>
       <div class="pkg-card">
         <span class="pkg-card__name">Group photos</span>
-        <span class="pkg-card__sub">2–3 to 10–15 athletes per frame</span>
-        <p class="pkg-card__body">Group photos are small group shots. The size varies, anywhere from 2–3 to 10–15 athletes per frame, depending on the team and what they want to do.</p>
-        <p class="pkg-card__body">Any package can add group photos at additional per-athlete cost. Pricing for each combination is in the calculator.</p>
-        <p class="pkg-card__note">A full team photo comes with any package if you want one.</p>
+        <span class="pkg-card__sub">Add to any package.</span>
+        <ul class="pkg-card__bullets">
+          <li>2&ndash;15+ athletes per frame.</li>
+          <li>Add-on, priced per athlete in the calculator.</li>
+          <li>These are "small" groups, not a team photo.</li>
+        </ul>
       </div>
     </div>
+
+    <div class="pkg-callout">A full team photo comes with every package.</div>
   </div>
 </section>
 
-<!-- ── Section 7 / Booking, prep, delivery ──────────────────────── -->
+<!-- ── Logistics ────────────────────────────────────────────────── -->
 <section class="section section--alt" id="logistics">
   <div class="split split--photo-first">
     <div class="split__photo" style="min-height: 500px;">
       <img src="images/binghamton-university-womens-soccer-media-day-binghamton-ny-07089.jpg" alt="Soccer goalkeeper in a meditative pose seated on soccer balls" />
     </div>
     <div class="split__text">
-      <span class="eye">03 / Logistics — Booking · Prep · Delivery</span>
-      <h2 class="sec-head">Booking, prep, and delivery.</h2>
+      <h2 class="sec-head">Logistics.</h2>
       <div class="logistics-grid" style="grid-template-columns: 1fr; gap: 32px; margin-top: 24px;">
         <div>
           <span class="logistics-head">Booking</span>
           <div class="logistics-body">
-            <p>For outdoor sports, the best window is golden hour — the hour before sunset through the hour after. Any weather in the forecast moves the shoot indoors instantly. I work with <strong>$20,000+ in sensitive, non-waterproof equipment</strong>, so even a chance of rain triggers the switch. The indoor backup is the field house or event center depending on team size.</p>
-            <p>For indoor sports, the shoot takes place in the team's own facility. Booking early makes it easier to lock in the right window.</p>
+            <p>Outdoor sports shoot at golden hour. Indoor sports shoot in the team's own facility. Weather can move outdoor shoots indoors, with the field house or event center as the backup. Full rain protocol is in the FAQ.</p>
           </div>
         </div>
         <div>
           <span class="logistics-head">Prep</span>
           <div class="logistics-body">
-            <p>Before the shoot day, every athlete needs to create a profile in the <strong>Athlete Portal</strong> and complete the pre-shoot form. <em>This is not optional.</em> Athletes who show up unprepared get worse photos. The form prepares each athlete — poses and props decided ahead of time, personalized to who they are.</p>
-            <p>On the day of the shoot, each athlete should arrive 15 minutes before their scheduled slot.</p>
+            <p><em>Athletes who show up unprepared get worse photos.</em> The fix is the <strong>Athlete Portal<span class="info-chip-wrap"><button type="button" class="info-chip" aria-expanded="false" aria-label="More about the Athlete Portal">i</button><span class="info-chip__pop" role="tooltip">Each athlete picks poses, prop ideas, and references ahead of time, personalized to who they are.</span></span></strong>: each athlete makes a profile and fills out the pre-shoot form, so poses and props are decided ahead of time and personalized to who they are.</p>
           </div>
         </div>
         <div>
           <span class="logistics-head">Delivery</span>
           <div class="logistics-body">
-            <p>Most galleries are ready within 1.5 months, often closer to two to three weeks. Each athlete gets a private link sent to the email they entered into their profile. The coach also gets the link and an access code to the full gallery.</p>
+            <p>Galleries usually ready within 1.5 months, often closer to 2 to 3 weeks. Athletes, coaches, and anyone else who needs the photos get an email with the gallery link and a download code. The link is viewable by anyone who has it; the download code is what gates actual downloads.</p>
           </div>
         </div>
       </div>
-      <div class="stat-row" style="margin-top: 32px;">
+      <div class="stat-row" style="margin-top: 32px; grid-template-columns: 1fr 1fr;">
         <div class="stat-item">
           <span class="stat-num">1.5<span class="stat-unit">mo</span></span>
           <span class="stat-label">Typical turnaround</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">2–3<span class="stat-unit">wk</span></span>
+          <span class="stat-num">2&ndash;3<span class="stat-unit">wk</span></span>
           <span class="stat-label">Often faster</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-num">1</span>
-          <span class="stat-label">Email when gallery is live</span>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── Section 8 / Why this pricing works ───────────────────────── -->
+<!-- ── Pricing ──────────────────────────────────────────────────── -->
 <section class="section section--pad" id="pricing">
   <div class="wrap">
-    <span class="eye">04 / Philosophy — Why this pricing works</span>
-    <div style="display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start;" id="pricing-grid">
-      <div>
-        <h2 class="sec-head">Why this pricing works.</h2>
-        <div class="sec-body" style="margin-top: 24px; max-width: 680px;">
-          <p>The pricing is built around the actual work each package takes. Different combinations of choices and groups require different amounts of shooting and editing time, so the per-athlete rate scales with the load.</p>
-          <p>The math does not scale evenly across packages. A 3-choice package isn't exactly three times the cost of a 1-choice package. I price based on the real work each package requires, not a flat per-photo formula. Some packages are easier to scale up than others, which means <span class="accent">the jumps between tiers don't all look proportional on paper</span>.</p>
-          <p>Group photos scale at a smaller rate than individual photos because each group photo covers multiple athletes in one shot. The editing cost per athlete drops for groups.</p>
-          <p>For teams with 45 or more athletes, the per-athlete rate drops on a sliding scale, reaching the bottom around 60 athletes. Larger teams get a volume discount because editing efficiency improves at scale.</p>
-          <p>For preseason shoots, there's a <strong>$100 travel fee</strong> added to the total.</p>
-        </div>
-        <div class="pull-quote">
-          <p>The rates sit on the <span class="accent">friendly end</span> of what this kind of work typically costs.</p>
-        </div>
-      </div>
+    <h2 class="sec-head">Pricing.</h2>
+    <div class="sec-body" style="margin-top: 24px; max-width: 680px;">
+      <p>The rates sit on the friendly end of what this kind of work typically costs. Pricing follows the actual work each package takes, not a flat per-photo formula, so the jumps between tiers don't always look proportional on paper. Teams of 45 or more get a sliding volume discount that bottoms out around 60 athletes.</p>
+      <p>Preseason shoots add a flat <strong>$100 travel fee</strong>. Everything else is in the calculator below.</p>
     </div>
   </div>
 </section>
 
-<!-- ── Section 9 / Calculator ────────────────────────────────────── -->
+<!-- ── Calculator ───────────────────────────────────────────────── -->
 <section class="section" id="calculator" style="background: var(--bg); border-bottom: 1px solid var(--rule);">
   <div class="wrap section--pad" style="padding-bottom: 32px;">
-    <span class="eye">05 / Pricing — Calculator</span>
     <h2 class="sec-head" style="margin-bottom: 10px;">What it costs for your team.</h2>
     <p style="color: var(--ink-mid); font-size: 17px; line-height: 1.6; max-width: 580px; margin: 0 0 32px;">
       Enter team size, pick a photo tier, set the number of group photos. The calculator runs the same math as the quote.
@@ -999,7 +1315,7 @@ a.hero__meta-val:hover { text-decoration: underline; }
     <section class="calc" aria-label="Pricing calculator">
       <section class="inputs" aria-label="Inputs">
         <fieldset class="group">
-          <legend class="eyebrow">01 — TEAM</legend>
+          <legend class="eyebrow">01 · TEAM</legend>
           <div>
             <span class="label">Team size</span>
             <div class="stepper">
@@ -1019,13 +1335,13 @@ a.hero__meta-val:hover { text-decoration: underline; }
           </div>
         </fieldset>
         <fieldset class="group">
-          <legend class="eyebrow">02 — PACKAGE</legend>
+          <legend class="eyebrow">02 · INDIVIDUAL PHOTOS</legend>
           <div class="tiers" id="tiers" role="radiogroup" aria-label="Photo tier"></div>
         </fieldset>
         <fieldset class="group" id="groups-fieldset">
-          <legend class="eyebrow">03 — GROUP PHOTOS</legend>
-          <div class="groups" id="groups"></div>
-          <p class="helper">Group photos are small groups of 2–3 to 10–15 athletes per frame.</p>
+          <legend class="eyebrow">03 · GROUP PHOTOS</legend>
+          <div class="groups groups--tiles" id="groups"></div>
+          <p class="helper">Small groups, 2&ndash;15+ athletes per frame.</p>
         </fieldset>
       </section>
       <aside class="quote" aria-label="Quote">
@@ -1036,40 +1352,107 @@ a.hero__meta-val:hover { text-decoration: underline; }
   </div>
   <div class="wrap" style="padding-top: 20px; padding-bottom: 40px;">
     <p style="color: var(--ink-faint); font-size: 14px; line-height: 1.55; max-width: 560px;">
-      For team sizes or combinations you want to talk through, email me directly. The calculator covers every standard combination — anything outside that range is a custom quote.
+      For team sizes or combinations you want to talk through, email me directly. The calculator covers every standard combination. Anything outside that range is a custom quote.
     </p>
   </div>
 </section>
 
-<!-- ── Section 10 / Shoot time estimates ─────────────────────────── -->
-<section class="section section--alt section--pad">
+<!-- ── Shoot times expander ─────────────────────────────────────── -->
+<section class="disclosure" id="shoot-times">
+  <details class="disclosure__details">
+    <summary class="disclosure__summary">
+      <span class="disclosure__summary-title">Shoot time estimates</span>
+      <span class="disclosure__summary-hint">Open</span>
+    </summary>
+    <div class="disclosure__body">
+      <p class="disclosure__intro">Shooting times only. Add ~60 minutes for setup and teardown on every shoot, and ~10 minutes per group photo. These are estimates. Team prep, weather, location, and athlete behavior all affect the actual time.</p>
+      <div class="time-table-wrap">
+        <table class="time-table">
+          <thead>
+            <tr><th>Shoot</th><th>Time</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1-choice, 10 athletes</td><td>~1.5 hr</td></tr>
+            <tr><td>1-choice, 30 athletes</td><td>~1.5 hr</td></tr>
+            <tr><td>1-choice, 60 athletes</td><td>~3&ndash;4.5 hr</td></tr>
+            <tr><td>1-choice, 90 athletes</td><td>~3&ndash;5.5 hr</td></tr>
+            <tr><td>2-choice, 10 athletes</td><td>~2 hr</td></tr>
+            <tr><td>2-choice, 30 athletes</td><td>~2.5&ndash;3 hr</td></tr>
+            <tr><td>3-choice, 10 athletes</td><td>~1.5&ndash;2 hr</td></tr>
+            <tr><td>3-choice, 40 athletes</td><td>~4 hr</td></tr>
+            <tr><td>All-Access, 8 athletes</td><td>~3 hr</td></tr>
+            <tr><td>All-Access, 10 athletes</td><td>~3&ndash;4 hr</td></tr>
+            <tr><td>All-Access, 20 athletes</td><td>~4&ndash;5 hr</td></tr>
+            <tr><td>All-Access, 30 athletes</td><td>~5&ndash;6 hr</td></tr>
+            <tr><td>All-Access, 40 athletes</td><td>~6 hr</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- ── FAQ ──────────────────────────────────────────────────────── -->
+<section class="section section--alt section--pad" id="faq">
   <div class="wrap">
-    <span class="eye">05 / Pricing — Shoot times</span>
-    <h2 class="sec-head">Shoot time estimates.</h2>
-    <p class="sec-body" style="margin-top: 16px; max-width: 600px;">
-      Shooting times only. Add ~60 minutes for setup and teardown on every shoot, and ~10 minutes per group photo. These are estimates — team prep, weather, location, and athlete behavior all affect the actual time.
-    </p>
-    <div class="time-table-wrap">
-      <table class="time-table">
-        <thead>
-          <tr><th>Shoot</th><th>Time</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>1-choice, 10 athletes</td><td>~1.5 hr</td></tr>
-          <tr><td>1-choice, 30 athletes</td><td>~1.5 hr</td></tr>
-          <tr><td>1-choice, 60 athletes</td><td>~3–4.5 hr</td></tr>
-          <tr><td>1-choice, 90 athletes</td><td>~3–5.5 hr</td></tr>
-          <tr><td>2-choice, 10 athletes</td><td>~2 hr</td></tr>
-          <tr><td>2-choice, 30 athletes</td><td>~2.5–3 hr</td></tr>
-          <tr><td>3-choice, 10 athletes</td><td>~1.5–2 hr</td></tr>
-          <tr><td>3-choice, 40 athletes</td><td>~4 hr</td></tr>
-          <tr><td>Free-choice, 8 athletes</td><td>~3 hr</td></tr>
-          <tr><td>Free-choice, 10 athletes</td><td>~3–4 hr</td></tr>
-          <tr><td>Free-choice, 20 athletes</td><td>~4–5 hr</td></tr>
-          <tr><td>Free-choice, 30 athletes</td><td>~5–6 hr</td></tr>
-          <tr><td>Free-choice, 40 athletes</td><td>~6 hr</td></tr>
-        </tbody>
-      </table>
+    <h2 class="sec-head">FAQ.</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-item__summary">What if it rains on an outdoor shoot day?</summary>
+        <div class="faq-item__body">
+          <p>I work with $20,000+ in sensitive, non-waterproof equipment. Any rain in the forecast moves the shoot indoors immediately. Usually the field house or event center, depending on team size.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">What is "golden hour" and why does it matter?</summary>
+        <div class="faq-item__body">
+          <p>For outdoor sports, the best window is the hour before sunset through the hour after. The light is dramatic and flattering. Booking early helps lock that window in.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">What's in the Athlete Portal and pre-shoot form?</summary>
+        <div class="faq-item__body">
+          <p>Each athlete picks poses, prop ideas, and references ahead of time, personalized to who they are. Coming in prepared is the single biggest factor in whether the photos land.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">Why does warm-up matter on a photoshoot?</summary>
+        <div class="faq-item__body">
+          <p>It takes a few photos before most athletes loosen up on camera. Warm-up is often what separates a viral shot from a regular one. Photos will still come out good without it. They just tend to be less expressive of who the athlete actually is, and less interesting overall.</p>
+          <p>The lower-photo tiers leave less room for warm-up, which is why fewer dependable poses work best there. Higher tiers build in room to push into action shots and more complex setups.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">How does All-Access actually work?</summary>
+        <div class="faq-item__body">
+          <p>Each athlete gets as many individual and group photos as they want within their slot. Most land around 10&ndash;20 photos counting both individuals and groups together. Groups are unlimited inside the team's full time block.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">How is pricing structured?</summary>
+        <div class="faq-item__body">
+          <p>Tiers don't scale linearly because different packages take different amounts of shooting and editing time. Group photos scale at a smaller rate than individuals because each group photo covers multiple athletes in one frame.</p>
+          <p>Teams of 45 or more get a sliding volume discount that bottoms out around 60 athletes. Preseason shoots add a flat $100 travel fee.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">When and how do athletes get their photos?</summary>
+        <div class="faq-item__body">
+          <p>Most galleries are ready within 1.5 months, often closer to 2 to 3 weeks. Anyone who needs the photos (athletes, coaches, athletics staff) gets an email with the gallery link and a download code. The link is viewable. The download code is what gates downloads.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">Where do these photos end up beyond the team?</summary>
+        <div class="faq-item__body">
+          <p>On video boards, in media guides, across social, and in national coverage when it comes. They don't expire after the season.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__summary">What if my team or shoot doesn't fit the calculator?</summary>
+        <div class="faq-item__body">
+          <p>Email me directly: <a href="mailto:alternate.creative.media@gmail.com" style="color: var(--teal);">alternate.creative.media@gmail.com</a>. The calculator covers every standard combination. Anything outside that range is a custom quote.</p>
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -1093,7 +1476,7 @@ a.hero__meta-val:hover { text-decoration: underline; }
 
 <div class="sticky-price" id="sticky-price" aria-live="polite">
   <span class="sp-label">Estimate</span>
-  <span class="sp-total" id="sp-total">—</span>
+  <span class="sp-total" id="sp-total">&mdash;</span>
 </div>
 
 <script>
@@ -1167,17 +1550,33 @@ TIERS.forEach(t=>{
   tiersEl.appendChild(btn);
 });
 const groupsEl=document.getElementById("groups");
+function makeGroupTile(n,label,ariaLabel){
+  const b=document.createElement("button");
+  b.type="button";b.className="group-tile";
+  if(ariaLabel)b.setAttribute("aria-label",ariaLabel);
+  const count=document.createElement("span");count.className="group-tile__count";count.textContent=String(n);
+  const sub=document.createElement("span");sub.className="group-tile__sub";sub.textContent=label;
+  b.appendChild(count);b.appendChild(sub);
+  return b;
+}
 function renderGroupPicker(){
   groupsEl.innerHTML="";
   [0,1,2,3].forEach(n=>{
-    const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=String(n);
+    const label=n===1?"group":"groups";
+    const b=makeGroupTile(n,label);
     b.setAttribute("aria-pressed",String(state.groups===n));
-    b.addEventListener("click",()=>{state.groups=n;render();});groupsEl.appendChild(b);
+    b.addEventListener("click",()=>{state.groups=n;render();});
+    groupsEl.appendChild(b);
   });
-  const plus=document.createElement("button");plus.type="button";plus.className="chip";plus.textContent="+";
-  plus.setAttribute("aria-label","More groups");plus.setAttribute("aria-pressed",String(state.groups>3));
-  plus.addEventListener("click",()=>{state.groups=Math.max(state.groups+1,4);render();});groupsEl.appendChild(plus);
-  if(state.groups>3){const c=document.createElement("span");c.className="groups-count";c.textContent=state.groups+" GROUPS";groupsEl.appendChild(c);}
+  const plus=document.createElement("button");
+  plus.type="button";plus.className="group-tile";plus.setAttribute("aria-label","More groups");
+  const plusCount=document.createElement("span");plusCount.className="group-tile__count";plusCount.textContent="+";
+  const plusSub=document.createElement("span");plusSub.className="group-tile__sub";plusSub.textContent="more";
+  plus.appendChild(plusCount);plus.appendChild(plusSub);
+  plus.setAttribute("aria-pressed",String(state.groups>3));
+  plus.addEventListener("click",()=>{state.groups=Math.max(state.groups+1,4);render();});
+  groupsEl.appendChild(plus);
+  if(state.groups>3){const c=document.createElement("span");c.className="groups-count";c.textContent=state.groups+" groups";groupsEl.appendChild(c);}
 }
 const teamInput=document.getElementById("team-size"),teamError=document.getElementById("team-error");
 const quoteBody=document.getElementById("quote-body"),groupsFieldset=document.getElementById("groups-fieldset");
@@ -1190,7 +1589,7 @@ function updateStickyBar(r){
   if(!spTotal)return;
   if(r.kind==="ok")spTotal.textContent=fmtUSD(r.total);
   else if(r.kind==="custom-quote")spTotal.textContent="Custom";
-  else spTotal.textContent="—";
+  else spTotal.innerHTML="&mdash;";
 }
 function render(){
   if(document.activeElement!==teamInput)teamInput.value=state.teamSize;
@@ -1240,6 +1639,22 @@ function render(){
   const incl=document.createElement("p");incl.className="small-note";incl.style.color="rgba(255,255,255,0.55)";incl.textContent="A full team photo is included if you want one.";quoteBody.appendChild(incl);
 }
 render();
+
+/* ── Info chip tap-toggle (touch + click outside to dismiss) ──── */
+document.querySelectorAll(".info-chip").forEach(chip=>{
+  chip.addEventListener("click",e=>{
+    e.stopPropagation();
+    const open=chip.getAttribute("aria-expanded")==="true";
+    document.querySelectorAll('.info-chip[aria-expanded="true"]').forEach(c=>c.setAttribute("aria-expanded","false"));
+    chip.setAttribute("aria-expanded",String(!open));
+  });
+});
+document.addEventListener("click",()=>{
+  document.querySelectorAll('.info-chip[aria-expanded="true"]').forEach(c=>c.setAttribute("aria-expanded","false"));
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")document.querySelectorAll('.info-chip[aria-expanded="true"]').forEach(c=>c.setAttribute("aria-expanded","false"));
+});
 </script>
 </body>
 </html>
