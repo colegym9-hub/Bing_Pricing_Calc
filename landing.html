@@ -1087,6 +1087,84 @@ a.hero__meta-val:hover { text-decoration: underline; }
   color: rgba(255,255,255,0.6);
   margin-top: 4px;
 }
+
+/* ── Print button ──────────────────────────────────────────────── */
+.calc-island .btn-print {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 11px 0;
+  font-family: var(--ac-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.calc-island .btn-print:hover { color: #fff; border-color: rgba(255,255,255,0.28); }
+
+/* ── Print / Save as PDF ───────────────────────────────────────── */
+@media print {
+  @page { size: A4 portrait; margin: 18mm 16mm; }
+  html, body { background: #fff !important; color: #111 !important; }
+  .site-nav, .hero, #the-shoot, #what-you-get, .trio, #packages,
+  #logistics, #pricing, #shoot-times, #faq, .closer, .lp-footer,
+  .sticky-price, .calc-island .btn-print, .calc-island .nudge > button { display: none !important; }
+  #calculator { background: #fff !important; border: 0 !important; }
+  #calculator .wrap.section--pad,
+  #calculator .wrap[style] { padding: 0 !important; }
+  #calculator .sec-head { color: #111 !important; font-size: 28px !important; margin-bottom: 8px !important; }
+  #calculator p { color: #333 !important; }
+  #calculator .callout-row {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    background: #ddd !important; border-color: #ddd !important; margin-bottom: 20px !important;
+  }
+  #calculator .callout-item { background: #f5f5f5 !important; }
+  #calculator .callout-item__key { color: #2d7a87 !important; }
+  #calculator .callout-item__val { color: #333 !important; }
+  .calc-island { padding: 0 !important; }
+  .calc-island .calc { grid-template-columns: 1.1fr 1fr !important; gap: 24px !important; }
+  .calc-island .eyebrow { color: #2d7a87 !important; }
+  .calc-island .label, .calc-island .helper { color: #666 !important; }
+  .calc-island .inputs, .calc-island .quote { background: #fff !important; }
+  .calc-island .quote {
+    background: #fff !important; border: 1px solid #ccc !important; border-top: 2px solid #2d7a87 !important;
+    color: #111 !important; position: static !important; padding: 18px 22px !important;
+  }
+  .calc-island .quote .total { color: #111 !important; font-size: 48px !important; }
+  .calc-island .quote .custom-head, .calc-island .quote .custom-body { color: #111 !important; }
+  .calc-island .breakdown dt { color: #444 !important; }
+  .calc-island .breakdown dt .sub { color: #777 !important; }
+  .calc-island .breakdown dd { color: #111 !important; }
+  .calc-island .meta-line { color: #444 !important; }
+  .calc-island .small-note { color: #666 !important; }
+  .calc-island .stepper { background: #fff !important; border-color: #ccc !important; }
+  .calc-island .stepper button, .calc-island .stepper input { color: #111 !important; background: #fff !important; }
+  .calc-island .toggle { border-color: #ccc !important; background: #fff !important; }
+  .calc-island .toggle button { color: #444 !important; }
+  .calc-island .toggle button[aria-pressed="true"] { background: #2d7a87 !important; color: #fff !important; }
+  .calc-island .tier {
+    background: #f5f5f5 !important; border-color: #ccc !important; color: #111 !important;
+  }
+  .calc-island .tier[aria-checked="true"] { background: #2d7a87 !important; border-color: #2d7a87 !important; }
+  .calc-island .tier[aria-checked="true"] * { color: #fff !important; }
+  .calc-island .tier .desc { color: #555 !important; }
+  .calc-island .tier .dot { border-color: #888 !important; background: transparent !important; }
+  .calc-island .tier[aria-checked="true"] .dot { background: #fff !important; border-color: #fff !important; }
+  .calc-island .group-tile {
+    background: #f5f5f5 !important; border-color: #ccc !important; color: #111 !important;
+  }
+  .calc-island .group-tile[aria-pressed="true"] { background: #2d7a87 !important; border-color: #2d7a87 !important; }
+  .calc-island .group-tile[aria-pressed="true"] * { color: #fff !important; }
+  .calc-island .group-tile__count { color: #111 !important; }
+  .calc-island .group-tile__sub { color: #666 !important; }
+  .calc-island .nudge { background: #fffbe6 !important; border-color: #ddd !important; }
+  .calc-island .nudge p { color: #222 !important; }
+}
 </style>
 </head>
 <body>
@@ -1173,7 +1251,7 @@ a.hero__meta-val:hover { text-decoration: underline; }
     </div>
     <div class="trio__item">
       <div class="trio__photo">
-        <img src="images/binghamton-university-womens-lacrosse-media-day-binghamton-ny-00083.jpg" alt="Binghamton women's lacrosse team group photo with smoke" />
+        <img src="images/binghamton-university-softball-funny-team-pic.jpg" alt="Binghamton softball team posed together in a tight group with stadium lights" style="object-position: center 60%;" />
       </div>
       <div class="trio__label">
         <span class="key">Team</span>
@@ -1347,6 +1425,7 @@ a.hero__meta-val:hover { text-decoration: underline; }
       <aside class="quote" aria-label="Quote">
         <p class="eyebrow">Your quote</p>
         <div id="quote-body"></div>
+        <button type="button" class="btn-print" onclick="window.print()">Print / Save as PDF</button>
       </aside>
     </section>
   </div>
